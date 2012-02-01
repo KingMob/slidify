@@ -21,8 +21,8 @@ function main() {
 	// My actual code - Matthew Davidson
 	var imgAnchors = $("form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]").has("img");
 	var imgUrls = $.makeArray(imgAnchors.map(function(){return this.href;}));
-	//var slider = $("<div id='sliderDiv'><ul id='slider'><li><img src='" + imgUrls.join("'></li><li><img src='") + "'></li></ul></div>");
-	var slider = $("<div id='sliderDiv'><ul id='slider'><li><img src='" + imgUrls.slice(0, 3).join("'></li><li><img src='") + "'></li></ul></div>");
+	var slider = $("<div id='sliderDiv'><ul id='slider'><li><img src='" + imgUrls.join("'></li><li><img src='") + "'></li></ul></div>");
+	//var slider = $("<div id='sliderDiv'><ul id='slider'><li><img src='" + imgUrls.slice(0, 3).join("'></li><li><img src='") + "'></li></ul></div>");
 	$("body").append(slider);
 	
 	$('#sliderDiv').css("width", $(window).width());
@@ -35,7 +35,7 @@ function main() {
 	  // Appearance
 	  theme               : "minimalist-round", // Theme name
 	  expand              : true,     // If true, the entire slider will expand to fit the parent element
-	  resizeContents      : true,      // If true, solitary images/objects in the panel will expand to fit the viewport
+	  resizeContents      : false,      // If true, solitary images/objects in the panel will expand to fit the viewport
 	  vertical            : false,     // If true, all panels will slide vertically; they slide horizontally otherwise
 	  showMultiple        : false,     // Set this value to a number and it will show that many slides at once
 	  easing              : "swing",   // Anything other than "linear" or "swing" requires the easing plugin or jQuery UI
