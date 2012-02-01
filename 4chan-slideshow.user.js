@@ -6,9 +6,13 @@
 // @match			http://boards.4chan.org/*
 // ==/UserScript==
 
-
 // the guts of this userscript
 function main() {
+	var playpng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkM4MTc5NTQ3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkM4MTc5NTU3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozREFCM0FFQjdEODExMUUwODExMUI1NjNBRTBEQTJDNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDozREFCM0FFQzdEODExMUUwODExMUI1NjNBRTBEQTJDNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PiDTdmcAAAKOSURBVHja7JhNTxNBGIDfTUhIU9OTJwyJVzVBT/4K/4EHD+IFLujRozEx8eDBRCC1BIwKFlpaS0ORGJGQqFjTVFrtsuyyFCqIhVIhQLu77fgObozxI9TutG7JbPJkd97dmczT+a5ACIGjdgmCQAQuxsW4GBfjYlyMi3GxuokBFWMBXk1IJ+JkVUELdWEqNnC5vZ04HA6auIm4jooY2cxtkXlpgXR0dBKn00mDt5DjDS/2eT37A3FeIl1dV4nL5aIvbyOt9RRjNnnQAbuSWfstvrOzDQP9/eB290I+n7+LoXuIVKnYf58VaWGKuvzX93t7uzA0OAi9Pd2Qy232YIiSaAixlKQc+l2hUAC/bxj6PPdhbXX1IYa6kTe2FptLihV/Xy6XYCwUQkE3LC2pw2YXnTkY+HYTexdLVJV3IjKO49ADsrwQMltw8ruXTcRezcYslTH9cgoeoKAops5jMmpFrInlVkbTNEv5T50+A21nz4GiyG91XW+mRVZbFlOxoqZXlW9jIwveocfwLBKGYrF4B0M3rEgxF9P0fxP7lFmB4OgIPJ+cAMMwHmGISqnIrtW6MO6KlYml0yoEfF6YmZ7KYnIc6UMyyBZd8uikaSsx/RCxxUUZAn4vRGdf0y1KGPEg68hXU8hgIVW3riimPkAoMALJxHvaKk/pSQD58osQ04NhTcWSc3EYC/pAkSUZkwHkiSm0jezXQqg2XVE3Du7xWBQi4SAsp9WPmPQjo0jWFCrUUsjy0eAPR4XYxUtXSMuJVpqII9eRNqQFOWb+iEIjHluu4e0CEkRe0OWJnlro8oaUqmkhu2ypTpqP+z8Jla10ObuINZsSJatCthLj/ytyMS7GxbgYF+Ni7MS+CTAAs5aAGPsbqywAAAAASUVORK5CYII=";
+	var pausepng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkM4MTc5NTg3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkM4MTc5NTk3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQzgxNzk1NjdEOEYxMUUwODExMUI1NjNBRTBEQTJDNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQzgxNzk1NzdEOEYxMUUwODExMUI1NjNBRTBEQTJDNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuoETW0AAADfSURBVHja7JnBDcMgDEXtqtswQts1WajtCAwTg+QmPQfwwaqAfks+8Q9+fMeyAqsqrRbMrBdaNAAGMIABDGAAA9jqYPsqE491ppLRqnGpxXNXDCHo8/U+PXvcb5RSYovGY1e8ejp2XFLOpXpm1XiEMxg1irZrBgRTkpy7jvU0APslWJY+WE8zpmMGMBG04kiOicExmQ9sM7TiNl8rUqPN7BoMD4x7TMUKGDWKJjVrxmxFbPeTTcVS+o71NG7FeOUe8fupnGe0ahzqUMYz0j//pQIYwAAGMIABDGA+8RFgAFsPxgZJaDDDAAAAAElFTkSuQmCC";
+	var buttontraydownpng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjdFODMzREM1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjdFODMzREQ1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NDMwNzU1NzUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NDMwNzU1ODUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PhV2HEoAAAJWSURBVHja7JhPaxNRFMVv0hKrKBQ3LeknyE5ciSS6dtUPUBEbaDfiSnBhUMyuthLddKHGQkrFtotgFwpagpD4JwtLNWAWInQRNOOkMHXamdRUJ55XXqBqS8bOTBnrvfCDF5I7vMM97747CRBRExGgfRZB2qfBwlgYC2NhLIyFsTAWtnfR6fQBgYB3YyZmWK4YW3E3rgQd4BA4Jz/bCUu4DhTBolz7Sph4VncoFFIHBs7+dfLCwhsqlUrHpThfCRPV6mo0GnORSKT//GDcdqKmaRSLnhTLL3614gGQTyav90djpync12crMZG4QqqqprBU3NyMo78GtrT7EOgBx8DlaOxU9O69ibb5Lwp5Gh6Kv8TyDFjbesb80u6/g1VQBVlsuDIz/ZAM09yR2vIyXbuaELn3wTe3GofbwkR3M8AnUAbPb6XGqFKpkGGY25K6OUqKUhVlnQUbfr7HRNW+giUwr+v64tiNEVoz6n9QLBZp7lH2rbAtWHezWl4Ia8pN1sAH8OD1q4KSyz37xYLaygrdTo2K36elfX/8C5OHJZtAy5L59J1xqqk1Ms36JlOZCVKqnyfxXcZtC3o9UglLatKST1Z1/d1kJk1mfZ3K5fc0//TxZpcHdbct+NsQ3aTd0ubCPgpOgAvgY3z4YrOnNyySLsk7r+1072RfXglr3W3ilhZjRTIYDIqEIXDEzizpZF9uXtA7DQAHwWE5HFuyaxrSrp69j3ktrHWOOySW7ICWnbPlRFgneR+WZIP2MPgN+r97g3ZyDrhiLIyFsTAWxsJY2PbxU4ABAAm6ttRV9+RxAAAAAElFTkSuQmCC";
+	var buttontrayuppng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDQzMDc1NTU1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDQzMDc1NTY1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NDMwNzU1MzUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NDMwNzU1NDUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pk9XwK4AAAIuSURBVHja7JjNSxtBFMDffsU0CWugalFPTRQ8SEWrIPiVQA+K1SCJ6EEwtg1KBAWFVhSDnvxHPPVQ8P9oRQpexIMIlp48uZsNmqxvZBQ/wESzA2t8D35sYDPD/nbePOatBAA2hgQVFjJUaJAYiZEYiZEYiZGYC0MtdwJJEncaw6MerRiJORwSp7mSxNg+9iJroVDoAK8rXFJ4sH4MnksJL05Hon6/3/79Z9eOxxNs0FapxaOc5xIlxlblDRJGdjIbm/bR8Ym993ffDgaDbGBUpJjIVFSQamSp42Pn6Pj4JJhmFjyeKljPbLL7aZEpKQuc14e0a5qWXl3LgJXLgWGaV/RHotA/EEng/fWXJMZWwYPUIAszX1JQU1sHhmHeYWFxGXRdZ0vX9VLEFF4w5kPhpsHPsTicGdkHeH0BSH6dFZaSsoD5WMFoUVV1aTa9CFnLuknB+/T0ReBDW3sS///DzWLsrWs8Bb8PDceg7l39VcF4jKlkCqq8Xlb+W90qdp2C3+obGoc/DY6AmbWK4g/oEBubYOPnnUxJp8WCsiyvJian4eIiD5aVK4mu7l54H26ew/F9rmlb7on5FEWBXz+3nzzYxD2H8c/JfVHWJ+5b/Rg7D77lB11WwgNFXhw7fVjIKfIfOUT2kbwT/ZiTYiqviAF+1UrYM3kuZ3DOkYLbxK5bE/nW76LHQX4tcGynOmgn95jNKVAH7eaPOeWkC60YiZEYiZEYiZHYKxO7FGAA4NauLNvk2KcAAAAASUVORK5CYII=";
+
 	jQuery.easing.jswing=jQuery.easing.swing;jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return jQuery.easing[jQuery.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-jQuery.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return jQuery.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return jQuery.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
 	
 	
@@ -902,14 +906,14 @@ function main() {
 			start_slide             :   1,			// Start slide (0 is random)
 			stop_loop				:	0,			// Stops slideshow on last slide
 			random					: 	0,			// Randomize slide order (Ignores start slide)
-			slide_interval          :   5000,		// Length between transitions
+			slide_interval          :   6000,		// Length between transitions
 			transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
-			transition_speed		:	750,		// Speed of transition
+			transition_speed		:	500,		// Speed of transition
 			new_window				:	1,			// Image links open in new window/tab
 			pause_hover             :   0,			// Pause slideshow on hover
 			keyboard_nav            :   1,			// Keyboard navigation on/off
 			performance				:	1,			// 0-Normal, 1-Hybrid speed/quality, 2-Optimizes image quality, 3-Optimizes transition speed //  (Only works for Firefox/IE, not Webkit)
-			image_protect			:	1,			// Disables image dragging and right click with Javascript
+			image_protect			:	0,			// Disables image dragging and right click with Javascript
 
 			// Size & Position
 			fit_always				:	0,			// Image will never exceed browser width or height (Ignores min. dimensions)
@@ -962,7 +966,7 @@ function main() {
 	    		if (api.options.autoplay){
 	    			if (api.options.progress_bar) theme.progressBar();
 				}else{
-					if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", vars.image_path + "play.png");	// If pause play button is image, swap src
+					if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", playpng);	// If pause play button is image, swap src
 					if (api.options.progress_bar) $(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );	//  Place progress bar
 				}
 
@@ -975,11 +979,11 @@ function main() {
 				// Thumbnail Tray Toggle
 				$(vars.tray_button).toggle(function(){
 					$(vars.thumb_tray).stop().animate({bottom : 0, avoidTransforms : true}, 300 );
-					if ($(vars.tray_arrow).attr('src')) $(vars.tray_arrow).attr("src", vars.image_path + "button-tray-down.png");
+					if ($(vars.tray_arrow).attr('src')) $(vars.tray_arrow).attr("src", buttontraydownpng);
 					return false;
 				}, function() {
 					$(vars.thumb_tray).stop().animate({bottom : -$(vars.thumb_tray).height(), avoidTransforms : true}, 300 );
-					if ($(vars.tray_arrow).attr('src')) $(vars.tray_arrow).attr("src", vars.image_path + "button-tray-up.png");
+					if ($(vars.tray_arrow).attr('src')) $(vars.tray_arrow).attr("src", buttontrayuppng);
 					return false;
 				});
 
@@ -1144,11 +1148,11 @@ function main() {
 
 		 		if (state =='play'){
 		 			// If image, swap to pause
-		 			if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", vars.image_path + "pause.png");
+		 			if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", pausepng);
 					if (api.options.progress_bar && !vars.is_paused) theme.progressBar();
 		 		}else if (state == 'pause'){
 		 			// If image, swap to play
-		 			if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", vars.image_path + "play.png");
+		 			if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", playpng);
 	        		if (api.options.progress_bar && vars.is_paused)$(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );
 		 		}
 
@@ -1263,7 +1267,7 @@ function main() {
 		 ----------------------------*/												
 		 $.supersized.themeOptions = {					
 
-			progress_bar		:	1,		// Timer for each slide											
+			progress_bar		:	0,		// Timer for each slide											
 			mouse_scrub			:	0		// Thumbnails move with mouse
 
 		 };	
@@ -1274,7 +1278,12 @@ function main() {
 			
 	// My actual code - Matthew Davidson
 	var imgAnchors = $("form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]").has("img");
-	var imgUrls = $.makeArray(imgAnchors.map(function(){return {image: this.href};}));
+	//var imgUrls = $.makeArray(imgAnchors.map(function(){return {image: this.href};}));
+	//var imgThumbUrls = $.makeArray($("img", imgAnchors).map(function(){return {image: this.src};}));
+	
+	var imageInfo = $.makeArray(imgAnchors.map(function(){
+		return {image: this.href, thumb: $("img", this).attr("src")};
+		}));
 	var slideshowhtml = $('<!--Thumbnail Navigation-->\
 		<div id="prevthumb"></div>\
 		<div id="nextthumb"></div>\
@@ -1316,13 +1325,13 @@ function main() {
 	$.supersized({
 		autoplay				: 	0, 
 		image_protect			: 	0,
-		slide_interval          :   8000,		// Length between transitions
-		transition              :   3, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+		slide_interval          :   7000,		// Length between transitions
+		transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
 		transition_speed		:	400,		// Speed of transition
 												   
 		// Components							
 		slide_links	:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
-		slides 		:  	imgUrls.slice(0, 10)
+		slides 		:  	imageInfo
 	});
 }
 
@@ -1385,12 +1394,6 @@ body { background:#111; height:100%; }\
 			#tray-button{ float:right; margin-top:1px; border-left:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
 				#tray-button:hover{ background-position:0 1px; cursor:pointer; }\
 	\
-\
-/* Progress Bar\
-----------------------------*/					\
-#progress-back{ z-index:2005; position:fixed; bottom:42px; left:0; height:8px; width:100%; background:url('../img/progress-back.png') repeat-x; }\
-	#progress-bar{ position:relative; height:8px; width:100%; background:url('../img/progress-bar.png') repeat-x; }\
-\
 \
 /* Thumbnail Navigation\
 ----------------------------*/	\
