@@ -10,20 +10,1271 @@
 // the guts of this userscript
 function main() {
 	/*
-	 AnythingSlider v1.7.24 minified using Google Closure Compiler
-	 Original by Chris Coyier: http://css-tricks.com
-	 Get the latest version: https://github.com/ProLoser/AnythingSlider
+
+		Supersized - Fullscreen Slideshow jQuery Plugin
+		Version : 3.2.6
+		Site	: www.buildinternet.com/project/supersized
+
+		Author	: Sam Dunn
+		Company : One Mighty Roar (www.onemightyroar.com)
+		License : MIT License / GPL License
+
 	*/
 
-	(function(d){d.anythingSlider=function(h,j){var a=this,b;a.el=h;a.$el=d(h).addClass("anythingBase").wrap('<div class="anythingSlider"><div class="anythingWindow" /></div>');a.$el.data("AnythingSlider",a);a.init=function(){a.options=b=d.extend({},d.anythingSlider.defaults,j);a.initialized=!1;d.isFunction(b.onBeforeInitialize)&&a.$el.bind("before_initialize",b.onBeforeInitialize);a.$el.trigger("before_initialize",a);a.$wrapper=a.$el.parent().closest("div.anythingSlider").addClass("anythingSlider-"+ b.theme);a.$window=a.$el.closest("div.anythingWindow");a.win=window;a.$win=d(a.win);a.$controls=d('<div class="anythingControls"></div>').appendTo(b.appendControlsTo&&d(b.appendControlsTo).length?d(b.appendControlsTo):a.$wrapper);a.$startStop=d('<a href="#" class="start-stop"></a>');b.buildStartStop&&a.$startStop.appendTo(b.appendStartStopTo&&d(b.appendStartStopTo).length?d(b.appendStartStopTo):a.$controls);a.$nav=d('<ul class="thumbNav" />').appendTo(b.appendNavigationTo&&d(b.appendNavigationTo).length? d(b.appendNavigationTo):a.$controls);a.flag=!1;a.playing=b.autoPlay;a.slideshow=!1;a.hovered=!1;a.panelSize=[];a.currentPage=b.startPanel=parseInt(b.startPanel,10)||1;b.changeBy=parseInt(b.changeBy,10)||1;a.adj=b.infiniteSlides?0:1;a.width=a.$el.width();a.height=a.$el.height();a.outerPad=[a.$wrapper.innerWidth()-a.$wrapper.width(),a.$wrapper.innerHeight()-a.$wrapper.height()];b.playRtl&&a.$wrapper.addClass("rtl");if(b.expand)a.$outer=a.$wrapper.parent(),a.$window.css({width:"100%",height:"100%"}), a.checkResize();b.buildStartStop&&a.buildAutoPlay();b.buildArrows&&a.buildNextBackButtons();if(!b.autoPlay)b.autoPlayLocked=!1;a.updateSlider();a.$lastPage=a.$currentPage;a.runTimes=d("div.anythingSlider").index(a.$wrapper)+1;a.regex=RegExp("panel"+a.runTimes+"-(\\d+)","i");1===a.runTimes&&a.makeActive();if(!d.isFunction(d.easing[b.easing]))b.easing="swing";b.pauseOnHover&&a.$wrapper.hover(function(){a.playing&&(a.$el.trigger("slideshow_paused",a),a.clearTimer(!0))},function(){a.playing&&(a.$el.trigger("slideshow_unpaused", a),a.startStop(a.playing,!0))});a.setCurrentPage(a.gotoHash()||b.startPage,!1);a.slideControls(!1);a.$wrapper.bind("mouseenter mouseleave",function(b){a.hovered="mouseenter"===b.type?!0:!1;a.slideControls(a.hovered,!1)});d(document).keyup(function(c){if(b.enableKeyboard&&a.$wrapper.is(".activeSlider")&&!c.target.tagName.match("TEXTAREA|INPUT|SELECT")&&(b.vertical||!(38===c.which||40===c.which)))switch(c.which){case 39:case 40:a.goForward();break;case 37:case 38:a.goBack()}});a.$items.delegate("a", "focus.AnythingSlider",function(c){var e=d(this).closest(".panel"),e=a.$items.index(e)+a.adj;a.$items.find(".focusedLink").removeClass("focusedLink");d(this).addClass("focusedLink");a.$window.scrollLeft(0);if(-1!==e&&(e>=a.currentPage+b.showMultiple||e<a.currentPage))a.gotoPage(e),c.preventDefault()});var c="slideshow_paused slideshow_unpaused slide_init slide_begin slideshow_stop slideshow_start initialized swf_completed".split(" ");d.each("onShowPause onShowUnpause onSlideInit onSlideBegin onShowStop onShowStart onInitialized onSWFComplete".split(" "), function(f,e){d.isFunction(b[e])&&a.$el.bind(c[f],b[e])});d.isFunction(b.onSlideComplete)&&a.$el.bind("slide_complete",function(){setTimeout(function(){b.onSlideComplete(a)},0)});a.initialized=!0;a.$el.trigger("initialized",a);a.startStop(a.playing)};a.updateSlider=function(){a.$el.children(".cloned").remove();a.$nav.empty();a.currentPage=a.currentPage||1;a.$items=a.$el.children();a.pages=a.$items.length;a.dir=b.vertical?"top":"left";b.showMultiple=b.vertical?1:parseInt(b.showMultiple,10)||1;b.navigationSize= !1===b.navigationSize?0:parseInt(b.navigationSize,10)||0;if(1<b.showMultiple){if(b.showMultiple>a.pages)b.showMultiple=a.pages;a.adjustMultiple=b.infiniteSlides&&1<a.pages?0:b.showMultiple-1;a.pages=a.$items.length-a.adjustMultiple}a.$controls.add(a.$nav).add(a.$startStop).add(a.$forward).add(a.$back)[1>=a.pages?"hide":"show"]();1<a.pages&&a.buildNavigation();b.infiniteSlides&&1<a.pages&&(a.$el.prepend(a.$items.filter(":last").clone().addClass("cloned")),1<b.showMultiple?a.$el.append(a.$items.filter(":lt("+ b.showMultiple+")").clone().addClass("cloned multiple")):a.$el.append(a.$items.filter(":first").clone().addClass("cloned")),a.$el.find(".cloned").each(function(){d(this).find("a,input,textarea,select,button,area").attr("disabled","disabled");d(this).find("[id]").andSelf().removeAttr("id")}));a.$items=a.$el.children().addClass("panel"+(b.vertical?" vertical":""));a.setDimensions();b.resizeContents?(a.$items.css("width",a.width),a.$wrapper.css("width",a.getDim(a.currentPage)[0]).add(a.$items).css("height", a.height)):a.$win.load(function(){a.setDimensions()});if(a.currentPage>a.pages)a.currentPage=a.pages;a.setCurrentPage(a.currentPage,!1);a.$nav.find("a").eq(a.currentPage-1).addClass("cur")};a.buildNavigation=function(){if(b.buildNavigation&&1<a.pages){var c,f;a.$items.filter(":not(.cloned)").each(function(e){var g=e+1;c=(1===g?"first":"")+(g===a.pages?"last":"");f=d('<a class="panel'+g+'" href="#"><span></span></a>').wrap('<li class="'+c+'" />');a.$nav.append(f.parent());d.isFunction(b.navigationFormatter)? (c=b.navigationFormatter(g,d(this)),"hidden"===f.find("span").css("visibility")&&f.addClass(b.tooltipClass).attr("title",c)):c=g;f.bind(b.clickControls,function(c){if(!a.flag&&b.enableNavigation)a.flag=!0,setTimeout(function(){a.flag=!1},100),a.gotoPage(g),b.hashTags&&a.setHash(g);c.preventDefault()}).find("span").html(c)});if(b.navigationSize&&b.navigationSize<a.pages)a.$controls.find(".anythingNavWindow").length||a.$nav.before('<ul><li class="prev"><a href="#"><span>'+b.backText+"</span></a></li></ul>").after('<ul><li class="next"><a href="#"><span>'+ b.forwardText+"</span></a></li></ul>").wrap('<div class="anythingNavWindow"></div>'),a.navWidths=a.$nav.find("li").map(function(){return d(this).innerWidth()+Math.ceil(parseInt(d(this).find("span").css("left"),10)/2||0)}).get(),a.navLeft=1,a.$nav.width(a.navWidth(1,a.pages+1)+5),a.$controls.find(".anythingNavWindow").width(a.navWidth(1,b.navigationSize+1)).end().find(".prev,.next").bind(b.clickControls,function(c){if(!a.flag)a.flag=!0,setTimeout(function(){a.flag=!1},200),a.navWindow(a.navLeft+b.navigationSize* (d(this).is(".prev")?-1:1));c.preventDefault()})}};a.navWidth=function(b,f){var e;e=Math.min(b,f);for(var d=Math.max(b,f),i=0;e<d;e++)i+=a.navWidths[e-1]||0;return i};a.navWindow=function(c){if(b.navigationSize&&b.navigationSize<a.pages&&a.navWidths){var f=a.pages-b.navigationSize+1,c=1>=c?1:1<c&&c<f?c:f;if(c!==a.navLeft)a.$controls.find(".anythingNavWindow").animate({scrollLeft:a.navWidth(1,c),width:a.navWidth(c,c+b.navigationSize)},{queue:!1,duration:b.animationTime}),a.navLeft=c}};a.buildNextBackButtons= function(){a.$forward=d('<span class="arrow forward"><a href="#"><span>'+b.forwardText+"</span></a></span>");a.$back=d('<span class="arrow back"><a href="#"><span>'+b.backText+"</span></a></span>");a.$back.bind(b.clickBackArrow,function(c){if(b.enableArrows&&!a.flag)a.flag=!0,setTimeout(function(){a.flag=!1},100),a.goBack();c.preventDefault()});a.$forward.bind(b.clickForwardArrow,function(c){if(b.enableArrows&&!a.flag)a.flag=!0,setTimeout(function(){a.flag=!1},100),a.goForward();c.preventDefault()}); a.$back.add(a.$forward).find("a").bind("focusin focusout",function(){d(this).toggleClass("hover")});a.$back.appendTo(b.appendBackTo&&d(b.appendBackTo).length?d(b.appendBackTo):a.$wrapper);a.$forward.appendTo(b.appendForwardTo&&d(b.appendForwardTo).length?d(b.appendForwardTo):a.$wrapper);a.arrowWidth=a.$forward.width();a.arrowRight=parseInt(a.$forward.css("right"),10);a.arrowLeft=parseInt(a.$back.css("left"),10)};a.buildAutoPlay=function(){a.$startStop.html("<span>"+(a.playing?b.stopText:b.startText)+ "</span>").bind(b.clickSlideshow,function(c){b.enableStartStop&&(a.startStop(!a.playing),a.makeActive(),a.playing&&!b.autoPlayDelayed&&a.goForward(!0));c.preventDefault()}).bind("focusin focusout",function(){d(this).toggleClass("hover")})};a.checkResize=function(c){clearTimeout(a.resizeTimer);a.resizeTimer=setTimeout(function(){var f=a.$outer.width()-a.outerPad[0],e=("BODY"===a.$outer[0].tagName?a.$win.height():a.$outer.height())-a.outerPad[1];if(a.width*b.showMultiple!==f||a.height!==e)a.setDimensions(), a.gotoPage(a.currentPage,a.playing,null,-1);"undefined"===typeof c&&a.checkResize()},500)};a.setDimensions=function(){var c,f,e,g,i=0,h={width:"100%",height:"100%"},j=1<b.showMultiple?a.width||a.$window.width()/b.showMultiple:a.$window.width(),k=a.$win.width();if(b.expand)c=a.$outer.width()-a.outerPad[0],a.height=f=a.$outer.height()-a.outerPad[1],a.$wrapper.add(a.$window).add(a.$items).css({width:c,height:f}),a.width=j=1<b.showMultiple?c/b.showMultiple:c;a.$items.each(function(l){g=d(this);e=g.children(); if(b.resizeContents)c=a.width,f=a.height,g.css({width:c,height:f}),e.length&&("EMBED"===e[0].tagName&&e.attr(h),"OBJECT"===e[0].tagName&&e.find("embed").attr(h),1===e.length&&e.css(h));else{c=g.width()||a.width;1===e.length&&c>=k&&(c=e.width()>=k?j:e.width(),e.css("max-width",c));g.css("width",c);f=1===e.length?e.outerHeight(!0):g.height();if(f<=a.outerPad[1])f=a.height;g.css("height",f)}a.panelSize[l]=[c,f,i];i+=b.vertical?f:c});a.$el.css(b.vertical?"height":"width",i)};a.getDim=function(c){if(1> a.pages||isNaN(c))return[a.width,a.height];var c=b.infiniteSlides&&1<a.pages?c:c-1,f,e=a.panelSize[c][0],d=a.panelSize[c][1];if(1<b.showMultiple)for(f=1;f<b.showMultiple;f++)e+=a.panelSize[(c+f)%b.showMultiple][0],d=Math.max(d,a.panelSize[c+f][1]);return[e,d]};a.goForward=function(c){a.gotoPage(a.currentPage+b.changeBy*(b.playRtl?-1:1),c)};a.goBack=function(c){a.gotoPage(a.currentPage+b.changeBy*(b.playRtl?1:-1),c)};a.gotoPage=function(c,f,e,g){!0!==f&&(f=!1,a.startStop(!1),a.makeActive());/^[#|.]/.test(c)&& d(c).length&&(c=d(c).closest(".panel").index()+a.adj);1!==b.changeBy&&(0>c&&(c+=a.pages),c>a.pages&&(c-=a.pages));if(!(1>=a.pages)){a.$lastPage=a.$currentPage;if("number"!==typeof c)c=b.startPanel,a.setCurrentPage(c);if(!f||!b.isVideoPlaying(a)){a.exactPage=c;c>a.pages+1-a.adj&&(c=!b.infiniteSlides&&!b.stopAtEnd?1:a.pages);c<a.adj&&(c=!b.infiniteSlides&&!b.stopAtEnd?a.pages:1);if(!b.infiniteSlides)a.exactPage=c;a.currentPage=c>a.pages?a.pages:1>c?1:a.currentPage;a.$currentPage=a.$items.eq(a.currentPage- a.adj);a.targetPage=0===c?a.pages:c>a.pages?1:c;a.$targetPage=a.$items.eq(a.targetPage-1);g=g||b.animationTime;0<=g&&a.$el.trigger("slide_init",a);a.slideControls(!0,!1);!0!==f&&(f=!1);(!f||b.stopAtEnd&&c===a.pages)&&a.startStop(!1);0<=g&&a.$el.trigger("slide_begin",a);setTimeout(function(d){b.resizeContents||(d=a.getDim(c),a.$wrapper.filter(":not(:animated)").animate({width:d[0]||a.width,height:d[1]||a.height},{queue:!1,duration:0>g?0:g,easing:b.easing}));d={};d[a.dir]=-a.panelSize[b.infiniteSlides&& 1<a.pages?c:c-1][2];a.$el.filter(":not(:animated)").animate(d,{queue:!1,duration:g,easing:b.easing,complete:function(){a.endAnimation(c,e,g)}})},parseInt(b.delayBeforeAnimate,10)||0)}}};a.endAnimation=function(c,d,e){0===c?(a.$el.css(a.dir,-a.panelSize[a.pages][2]),c=a.pages):c>a.pages&&(a.$el.css(a.dir,-a.panelSize[1][2]),c=1);a.exactPage=c;a.setCurrentPage(c,!1);a.$items.removeClass("activePage").eq(c-a.adj).addClass("activePage");a.hovered||a.slideControls(!1);0<=e&&a.$el.trigger("slide_complete", a);"function"===typeof d&&d(a);b.autoPlayLocked&&!a.playing&&setTimeout(function(){a.startStop(!0)},b.resumeDelay-(b.autoPlayDelayed?b.delay:0))};a.setCurrentPage=function(c,d){c=parseInt(c,10);if(!(1>a.pages||0===c||isNaN(c))){c>a.pages+1-a.adj&&(c=a.pages-a.adj);c<a.adj&&(c=1);b.buildNavigation&&a.$nav.find(".cur").removeClass("cur").end().find("a").eq(c-1).addClass("cur");!b.infiniteSlides&&b.stopAtEnd&&(a.$wrapper.find("span.forward")[c===a.pages?"addClass":"removeClass"]("disabled").end().find("span.back")[1=== c?"addClass":"removeClass"]("disabled"),c===a.pages&&a.playing&&a.startStop());if(!d){var e=a.getDim(c);a.$wrapper.css({width:e[0],height:e[1]}).add(a.$window).scrollLeft(0);a.$el.css(a.dir,-a.panelSize[b.infiniteSlides&&1<a.pages?c:c-1][2])}a.currentPage=c;a.$currentPage=a.$items.removeClass("activePage").eq(c-a.adj).addClass("activePage")}};a.makeActive=function(){a.$wrapper.is(".activeSlider")||(d(".activeSlider").removeClass("activeSlider"),a.$wrapper.addClass("activeSlider"))};a.gotoHash=function(){var c= a.win.location.hash,f=c.indexOf("&"),e=c.match(a.regex);null===e&&!/^#&/.test(c)&&!/#!?\//.test(c)?(c=c.substring(0,0<=f?f:c.length),e=d(c).length&&d(c).closest(".anythingBase")[0]===a.el?d(c).closest(".panel").index():null):null!==e&&(e=b.hashTags?parseInt(e[1],10):null);return e};a.setHash=function(b){var d="panel"+a.runTimes+"-",e=a.win.location.hash;if("undefined"!==typeof e)a.win.location.hash=0<e.indexOf(d)?e.replace(a.regex,d+b):e+"&"+d+b};a.slideControls=function(c){var d=c?0:b.animationTime, e=c?b.animationTime:0,g=c?1:0,h=c?0:1;b.toggleControls&&a.$controls.stop(!0,!0).delay(d)[c?"slideDown":"slideUp"](b.animationTime/2).delay(e);b.buildArrows&&b.toggleArrows&&(!a.hovered&&a.playing&&(h=1,g=0),a.$forward.stop(!0,!0).delay(d).animate({right:a.arrowRight+h*a.arrowWidth,opacity:g},b.animationTime/2),a.$back.stop(!0,!0).delay(d).animate({left:a.arrowLeft+h*a.arrowWidth,opacity:g},b.animationTime/2))};a.clearTimer=function(b){if(a.timer&&(a.win.clearInterval(a.timer),!b&&a.slideshow))a.$el.trigger("slideshow_stop", a),a.slideshow=!1};a.startStop=function(c,d){!0!==c&&(c=!1);if((a.playing=c)&&!d)a.$el.trigger("slideshow_start",a),a.slideshow=!0;b.buildStartStop&&(a.$startStop.toggleClass("playing",c).find("span").html(c?b.stopText:b.startText),0>parseInt(a.$startStop.find("span").css("text-indent"),10)&&a.$startStop.addClass(b.tooltipClass).attr("title",c?b.stopText:b.startText));c?(a.clearTimer(!0),a.timer=a.win.setInterval(function(){b.isVideoPlaying(a)?b.resumeOnVideoEnd||a.startStop():a.goForward(!0)},b.delay)): a.clearTimer()};a.init()};d.anythingSlider.defaults={theme:"default",expand:!1,resizeContents:!0,vertical:!1,showMultiple:!1,easing:"swing",buildArrows:!0,buildNavigation:!0,buildStartStop:!0,toggleArrows:!1,toggleControls:!1,startText:"Start",stopText:"Stop",forwardText:"&raquo;",backText:"&laquo;",tooltipClass:"tooltip",enableArrows:!0,enableNavigation:!0,enableStartStop:!0,enableKeyboard:!0,startPanel:1,changeBy:1,hashTags:!0,infiniteSlides:!0,navigationFormatter:null,navigationSize:!1,autoPlay:!1, autoPlayLocked:!1,autoPlayDelayed:!1,pauseOnHover:!0,stopAtEnd:!1,playRtl:!1,delay:3E3,resumeDelay:15E3,animationTime:600,delayBeforeAnimate:0,clickForwardArrow:"click",clickBackArrow:"click",clickControls:"click focusin",clickSlideshow:"click",resumeOnVideoEnd:!0,resumeOnVisible:!0,addWmodeToObject:"opaque",isVideoPlaying:function(){return!1}};d.fn.anythingSlider=function(h,j){return this.each(function(){var a,b=d(this).data("AnythingSlider");(typeof h).match("object|undefined")?b?b.updateSlider(): new d.anythingSlider(this,h):/\d/.test(h)&&!isNaN(h)&&b?(a="number"===typeof h?h:parseInt(d.trim(h),10),1<=a&&a<=b.pages&&b.gotoPage(a,!1,j)):/^[#|.]/.test(h)&&d(h).length&&b.gotoPage(h,!1,j)})}})(jQuery);
-		
+		$('body').append('<div id="supersized-loader"></div><ul id="supersized"></ul>');
+
+
+	    $.supersized = function(options){
+
+	    	/* Variables
+			----------------------------*/
+	    	var el = '#supersized',
+	        	base = this;
+	        // Access to jQuery and DOM versions of element
+	        base.$el = $(el);
+	        base.el = el;
+	        vars = $.supersized.vars;
+	        // Add a reverse reference to the DOM object
+	        base.$el.data("supersized", base);
+	        api = base.$el.data('supersized');
+
+			base.init = function(){
+	        	// Combine options and vars
+	        	$.supersized.vars = $.extend($.supersized.vars, $.supersized.themeVars);
+	        	$.supersized.vars.options = $.extend({},$.supersized.defaultOptions, $.supersized.themeOptions, options);
+	            base.options = $.supersized.vars.options;
+
+	            base._build();
+	        };
+
+
+	        /* Build Elements
+			----------------------------*/
+	        base._build = function(){
+	        	// Add in slide markers
+	        	var thisSlide = 0,
+	        		slideSet = '',
+					markers = '',
+					markerContent,
+					thumbMarkers = '',
+					thumbImage;
+
+				while(thisSlide <= base.options.slides.length-1){
+					//Determine slide link content
+					switch(base.options.slide_links){
+						case 'num':
+							markerContent = thisSlide;
+							break;
+						case 'name':
+							markerContent = base.options.slides[thisSlide].title;
+							break;
+						case 'blank':
+							markerContent = '';
+							break;
+					}
+
+					slideSet = slideSet+'<li class="slide-'+thisSlide+'"></li>';
+
+					if(thisSlide == base.options.start_slide-1){
+						// Slide links
+						if (base.options.slide_links)markers = markers+'<li class="slide-link-'+thisSlide+' current-slide"><a>'+markerContent+'</a></li>';
+						// Slide Thumbnail Links
+						if (base.options.thumb_links){
+							base.options.slides[thisSlide].thumb ? thumbImage = base.options.slides[thisSlide].thumb : thumbImage = base.options.slides[thisSlide].image;
+							thumbMarkers = thumbMarkers+'<li class="thumb'+thisSlide+' current-thumb"><img src="'+thumbImage+'"/></li>';
+						};
+					}else{
+						// Slide links
+						if (base.options.slide_links) markers = markers+'<li class="slide-link-'+thisSlide+'" ><a>'+markerContent+'</a></li>';
+						// Slide Thumbnail Links
+						if (base.options.thumb_links){
+							base.options.slides[thisSlide].thumb ? thumbImage = base.options.slides[thisSlide].thumb : thumbImage = base.options.slides[thisSlide].image;
+							thumbMarkers = thumbMarkers+'<li class="thumb'+thisSlide+'"><img src="'+thumbImage+'"/></li>';
+						};
+					}
+					thisSlide++;
+				}
+
+				if (base.options.slide_links) $(vars.slide_list).html(markers);
+				if (base.options.thumb_links && vars.thumb_tray.length){
+					$(vars.thumb_tray).append('<ul id="'+vars.thumb_list.replace('#','')+'">'+thumbMarkers+'</ul>');
+				}
+
+				$(base.el).append(slideSet);
+
+				// Add in thumbnails
+				if (base.options.thumbnail_navigation){
+					// Load previous thumbnail
+					vars.current_slide - 1 < 0  ? prevThumb = base.options.slides.length - 1 : prevThumb = vars.current_slide - 1;
+					$(vars.prev_thumb).show().html($("<img/>").attr("src", base.options.slides[prevThumb].image));
+
+					// Load next thumbnail
+					vars.current_slide == base.options.slides.length - 1 ? nextThumb = 0 : nextThumb = vars.current_slide + 1;
+					$(vars.next_thumb).show().html($("<img/>").attr("src", base.options.slides[nextThumb].image));
+				}
+
+	            base._start(); // Get things started
+	        };
+
+
+	        /* Initialize
+			----------------------------*/
+	    	base._start = function(){
+
+				// Determine if starting slide random
+				if (base.options.start_slide){
+					vars.current_slide = base.options.start_slide - 1;
+				}else{
+					vars.current_slide = Math.floor(Math.random()*base.options.slides.length);	// Generate random slide number
+				}
+
+				// If links should open in new window
+				var linkTarget = base.options.new_window ? ' target="_blank"' : '';
+
+				// Set slideshow quality (Supported only in FF and IE, no Webkit)
+				if (base.options.performance == 3){
+					base.$el.addClass('speed'); 		// Faster transitions
+				} else if ((base.options.performance == 1) || (base.options.performance == 2)){
+					base.$el.addClass('quality');	// Higher image quality
+				}
+
+				// Shuffle slide order if needed		
+				if (base.options.random){
+					arr = base.options.slides;
+					for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);	// Fisher-Yates shuffle algorithm (jsfromhell.com/array/shuffle)
+				    base.options.slides = arr;
+				}
+
+				/*-----Load initial set of images-----*/
+
+				if (base.options.slides.length > 1){
+					if(base.options.slides.length > 2){
+						// Set previous image
+						vars.current_slide - 1 < 0  ? loadPrev = base.options.slides.length - 1 : loadPrev = vars.current_slide - 1;	// If slide is 1, load last slide as previous
+						var imageLink = (base.options.slides[loadPrev].url) ? "href='" + base.options.slides[loadPrev].url + "'" : "";
+
+						var imgPrev = $('<img src="'+base.options.slides[loadPrev].image+'"/>');
+						var slidePrev = base.el+' li:eq('+loadPrev+')';
+						imgPrev.appendTo(slidePrev).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading prevslide');
+
+						imgPrev.load(function(){
+							$(this).data('origWidth', $(this).width()).data('origHeight', $(this).height());
+							base.resizeNow();	// Resize background image
+						});	// End Load
+					}
+				} else {
+					// Slideshow turned off if there is only one slide
+					base.options.slideshow = 0;
+				}
+
+				// Set current image
+				imageLink = (api.getField('url')) ? "href='" + api.getField('url') + "'" : "";
+				var img = $('<img src="'+api.getField('image')+'"/>');
+
+				var slideCurrent= base.el+' li:eq('+vars.current_slide+')';
+				img.appendTo(slideCurrent).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading activeslide');
+
+				img.load(function(){
+					base._origDim($(this));
+					base.resizeNow();	// Resize background image
+					base.launch();
+					if( typeof theme != 'undefined' && typeof theme._init == "function" ) theme._init();	// Load Theme
+				});
+
+				if (base.options.slides.length > 1){
+					// Set next image
+					vars.current_slide == base.options.slides.length - 1 ? loadNext = 0 : loadNext = vars.current_slide + 1;	// If slide is last, load first slide as next
+					imageLink = (base.options.slides[loadNext].url) ? "href='" + base.options.slides[loadNext].url + "'" : "";
+
+					var imgNext = $('<img src="'+base.options.slides[loadNext].image+'"/>');
+					var slideNext = base.el+' li:eq('+loadNext+')';
+					imgNext.appendTo(slideNext).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading');
+
+					imgNext.load(function(){
+						$(this).data('origWidth', $(this).width()).data('origHeight', $(this).height());
+						base.resizeNow();	// Resize background image
+					});	// End Load
+				}
+				/*-----End load initial images-----*/
+
+				//  Hide elements to be faded in
+				base.$el.css('visibility','hidden');
+				$('.load-item').hide();
+
+	    	};
+
+
+			/* Launch Supersized
+			----------------------------*/
+			base.launch = function(){
+
+				base.$el.css('visibility','visible');
+				$('#supersized-loader').remove();		//Hide loading animation
+
+				// Call theme function for before slide transition
+				if( typeof theme != 'undefined' && typeof theme.beforeAnimation == "function" ) theme.beforeAnimation('next');
+				$('.load-item').show();
+
+				// Keyboard Navigation
+				if (base.options.keyboard_nav){
+					$(document.documentElement).keyup(function (event) {
+
+						if(vars.in_animation) return false;		// Abort if currently animating
+
+						// Left Arrow or Down Arrow
+						if ((event.keyCode == 37) || (event.keyCode == 40)) {
+							clearInterval(vars.slideshow_interval);	// Stop slideshow, prevent buildup
+							base.prevSlide();
+
+						// Right Arrow or Up Arrow
+						} else if ((event.keyCode == 39) || (event.keyCode == 38)) {
+							clearInterval(vars.slideshow_interval);	// Stop slideshow, prevent buildup
+							base.nextSlide();
+
+						// Spacebar	
+						} else if (event.keyCode == 32 && !vars.hover_pause) {
+							clearInterval(vars.slideshow_interval);	// Stop slideshow, prevent buildup
+							base.playToggle();
+						}
+
+					});
+				}
+
+				// Pause when hover on image
+				if (base.options.slideshow && base.options.pause_hover){
+					$(base.el).hover(function() {
+						if(vars.in_animation) return false;		// Abort if currently animating
+				   			vars.hover_pause = true;	// Mark slideshow paused from hover
+				   			if(!vars.is_paused){
+				   				vars.hover_pause = 'resume';	// It needs to resume afterwards
+				   				base.playToggle();
+				   			}
+				   	}, function() {
+						if(vars.hover_pause == 'resume'){
+							base.playToggle();
+							vars.hover_pause = false;
+						}
+				   	});
+				}
+
+				if (base.options.slide_links){
+					// Slide marker clicked
+					$(vars.slide_list+'> li').click(function(){
+
+						index = $(vars.slide_list+'> li').index(this);
+						targetSlide = index + 1;
+
+						base.goTo(targetSlide);
+						return false;
+
+					});
+				}
+
+				// Thumb marker clicked
+				if (base.options.thumb_links){
+					$(vars.thumb_list+'> li').click(function(){
+
+						index = $(vars.thumb_list+'> li').index(this);
+						targetSlide = index + 1;
+
+						api.goTo(targetSlide);
+						return false;
+
+					});
+				}
+
+				// Start slideshow if enabled
+				if (base.options.slideshow && base.options.slides.length > 1){
+
+		    		// Start slideshow if autoplay enabled
+		    		if (base.options.autoplay && base.options.slides.length > 1){
+		    			vars.slideshow_interval = setInterval(base.nextSlide, base.options.slide_interval);	// Initiate slide interval
+					}else{
+						vars.is_paused = true;	// Mark as paused
+					}
+
+					//Prevent navigation items from being dragged					
+					$('.load-item img').bind("contextmenu mousedown",function(){
+						return false;
+					});
+
+				}
+
+				// Adjust image when browser is resized
+				$(window).resize(function(){
+		    		base.resizeNow();
+				});
+
+	    	};
+
+
+	        /* Resize Images
+			----------------------------*/
+			base.resizeNow = function(){
+
+				return base.$el.each(function() {
+			  		//  Resize each image seperately
+			  		$('img', base.el).each(function(){
+
+						thisSlide = $(this);
+						var ratio = (thisSlide.data('origHeight')/thisSlide.data('origWidth')).toFixed(2);	// Define image ratio
+
+						// Gather browser size
+						var browserwidth = base.$el.width(),
+							browserheight = base.$el.height(),
+							offset;
+
+						/*-----Resize Image-----*/
+						if (base.options.fit_always){	// Fit always is enabled
+							if ((browserheight/browserwidth) > ratio){
+								resizeWidth();
+							} else {
+								resizeHeight();
+							}
+						}else{	// Normal Resize
+							if ((browserheight <= base.options.min_height) && (browserwidth <= base.options.min_width)){	// If window smaller than minimum width and height
+
+								if ((browserheight/browserwidth) > ratio){
+									base.options.fit_landscape && ratio < 1 ? resizeWidth(true) : resizeHeight(true);	// If landscapes are set to fit
+								} else {
+									base.options.fit_portrait && ratio >= 1 ? resizeHeight(true) : resizeWidth(true);		// If portraits are set to fit
+								}
+
+							} else if (browserwidth <= base.options.min_width){		// If window only smaller than minimum width
+
+								if ((browserheight/browserwidth) > ratio){
+									base.options.fit_landscape && ratio < 1 ? resizeWidth(true) : resizeHeight();	// If landscapes are set to fit
+								} else {
+									base.options.fit_portrait && ratio >= 1 ? resizeHeight() : resizeWidth(true);		// If portraits are set to fit
+								}
+
+							} else if (browserheight <= base.options.min_height){	// If window only smaller than minimum height
+
+								if ((browserheight/browserwidth) > ratio){
+									base.options.fit_landscape && ratio < 1 ? resizeWidth() : resizeHeight(true);	// If landscapes are set to fit
+								} else {
+									base.options.fit_portrait && ratio >= 1 ? resizeHeight(true) : resizeWidth();		// If portraits are set to fit
+								}
+
+							} else {	// If larger than minimums
+
+								if ((browserheight/browserwidth) > ratio){
+									base.options.fit_landscape && ratio < 1 ? resizeWidth() : resizeHeight();	// If landscapes are set to fit
+								} else {
+									base.options.fit_portrait && ratio >= 1 ? resizeHeight() : resizeWidth();		// If portraits are set to fit
+								}
+
+							}
+						}
+						/*-----End Image Resize-----*/
+
+
+						/*-----Resize Functions-----*/
+
+						function resizeWidth(minimum){
+							if (minimum){	// If minimum height needs to be considered
+								if(thisSlide.width() < browserwidth || thisSlide.width() < base.options.min_width ){
+									if (thisSlide.width() * ratio >= base.options.min_height){
+										thisSlide.width(base.options.min_width);
+							    		thisSlide.height(thisSlide.width() * ratio);
+							    	}else{
+							    		resizeHeight();
+							    	}
+							    }
+							}else{
+								if (base.options.min_height >= browserheight && !base.options.fit_landscape){	// If minimum height needs to be considered
+									if (browserwidth * ratio >= base.options.min_height || (browserwidth * ratio >= base.options.min_height && ratio <= 1)){	// If resizing would push below minimum height or image is a landscape
+										thisSlide.width(browserwidth);
+										thisSlide.height(browserwidth * ratio);
+									} else if (ratio > 1){		// Else the image is portrait
+										thisSlide.height(base.options.min_height);
+										thisSlide.width(thisSlide.height() / ratio);
+									} else if (thisSlide.width() < browserwidth) {
+										thisSlide.width(browserwidth);
+							    		thisSlide.height(thisSlide.width() * ratio);
+									}
+								}else{	// Otherwise, resize as normal
+									thisSlide.width(browserwidth);
+									thisSlide.height(browserwidth * ratio);
+								}
+							}
+						};
+
+						function resizeHeight(minimum){
+							if (minimum){	// If minimum height needs to be considered
+								if(thisSlide.height() < browserheight){
+									if (thisSlide.height() / ratio >= base.options.min_width){
+										thisSlide.height(base.options.min_height);
+										thisSlide.width(thisSlide.height() / ratio);
+									}else{
+										resizeWidth(true);
+									}
+								}
+							}else{	// Otherwise, resized as normal
+								if (base.options.min_width >= browserwidth){	// If minimum width needs to be considered
+									if (browserheight / ratio >= base.options.min_width || ratio > 1){	// If resizing would push below minimum width or image is a portrait
+										thisSlide.height(browserheight);
+										thisSlide.width(browserheight / ratio);
+									} else if (ratio <= 1){		// Else the image is landscape
+										thisSlide.width(base.options.min_width);
+							    		thisSlide.height(thisSlide.width() * ratio);
+									}
+								}else{	// Otherwise, resize as normal
+									thisSlide.height(browserheight);
+									thisSlide.width(browserheight / ratio);
+								}
+							}
+						};
+
+						/*-----End Resize Functions-----*/
+
+						if (thisSlide.parents('li').hasClass('image-loading')){
+							$('.image-loading').removeClass('image-loading');
+						}
+
+						// Horizontally Center
+						if (base.options.horizontal_center){
+							$(this).css('left', (browserwidth - $(this).width())/2);
+						}
+
+						// Vertically Center
+						if (base.options.vertical_center){
+							$(this).css('top', (browserheight - $(this).height())/2);
+						}
+
+					});
+
+					// Basic image drag and right click protection
+					if (base.options.image_protect){
+
+						$('img', base.el).bind("contextmenu mousedown",function(){
+							return false;
+						});
+
+					}
+
+					return false;
+
+				});
+
+			};
+
+
+	        /* Next Slide
+			----------------------------*/
+			base.nextSlide = function(){
+
+				if(vars.in_animation || !api.options.slideshow) return false;		// Abort if currently animating
+					else vars.in_animation = true;		// Otherwise set animation marker
+
+			    clearInterval(vars.slideshow_interval);	// Stop slideshow
+
+			    var slides = base.options.slides,					// Pull in slides array
+					liveslide = base.$el.find('.activeslide');		// Find active slide
+					$('.prevslide').removeClass('prevslide');
+					liveslide.removeClass('activeslide').addClass('prevslide');	// Remove active class & update previous slide
+
+				// Get the slide number of new slide
+				vars.current_slide + 1 == base.options.slides.length ? vars.current_slide = 0 : vars.current_slide++;
+
+			    var nextslide = $(base.el+' li:eq('+vars.current_slide+')'),
+			    	prevslide = base.$el.find('.prevslide');
+
+				// If hybrid mode is on drop quality for transition
+				if (base.options.performance == 1) base.$el.removeClass('quality').addClass('speed');	
+
+
+				/*-----Load Image-----*/
+
+				loadSlide = false;
+
+				vars.current_slide == base.options.slides.length - 1 ? loadSlide = 0 : loadSlide = vars.current_slide + 1;	// Determine next slide
+
+				var targetList = base.el+' li:eq('+loadSlide+')';
+				if (!$(targetList).html()){
+
+					// If links should open in new window
+					var linkTarget = base.options.new_window ? ' target="_blank"' : '';
+
+					imageLink = (base.options.slides[loadSlide].url) ? "href='" + base.options.slides[loadSlide].url + "'" : "";	// If link exists, build it
+					var img = $('<img src="'+base.options.slides[loadSlide].image+'"/>'); 
+
+					img.appendTo(targetList).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading').css('visibility','hidden');
+
+					img.load(function(){
+						base._origDim($(this));
+						base.resizeNow();
+					});	// End Load
+				};
+
+				// Update thumbnails (if enabled)
+				if (base.options.thumbnail_navigation == 1){
+
+					// Load previous thumbnail
+					vars.current_slide - 1 < 0  ? prevThumb = base.options.slides.length - 1 : prevThumb = vars.current_slide - 1;
+					$(vars.prev_thumb).html($("<img/>").attr("src", base.options.slides[prevThumb].image));
+
+					// Load next thumbnail
+					nextThumb = loadSlide;
+					$(vars.next_thumb).html($("<img/>").attr("src", base.options.slides[nextThumb].image));
+
+				}
+
+
+
+				/*-----End Load Image-----*/
+
+
+				// Call theme function for before slide transition
+				if( typeof theme != 'undefined' && typeof theme.beforeAnimation == "function" ) theme.beforeAnimation('next');
+
+				//Update slide markers
+				if (base.options.slide_links){
+					$('.current-slide').removeClass('current-slide');
+					$(vars.slide_list +'> li' ).eq(vars.current_slide).addClass('current-slide');
+				}
+
+			    nextslide.css('visibility','hidden').addClass('activeslide');	// Update active slide
+
+		    	switch(base.options.transition){
+		    		case 0: case 'none':	// No transition
+		    		    nextslide.css('visibility','visible');
+		    		    vars.in_animation = false;
+		    		    break;
+		    		case 1: case 'fade':	// Fade
+		    		    nextslide.animate({opacity : 0},0).css('visibility','visible').animate({opacity : 1, avoidTransforms : false}, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    		    break;
+		    		case 2: case 'slideTop':	// Slide Top
+		    		    nextslide.animate({top : -base.$el.height()}, 0 ).css('visibility','visible').animate({ top:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    		    break;
+		    		case 3: case 'slideRight':	// Slide Right
+		    			nextslide.animate({left : base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    			break;
+		    		case 4: case 'slideBottom': // Slide Bottom
+		    			nextslide.animate({top : base.$el.height()}, 0 ).css('visibility','visible').animate({ top:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    			break;
+		    		case 5: case 'slideLeft':  // Slide Left
+		    			nextslide.animate({left : -base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    			break;
+		    		case 6: case 'carouselRight':	// Carousel Right
+		    			nextslide.animate({left : base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+						liveslide.animate({ left: -base.$el.width(), avoidTransforms : false }, base.options.transition_speed );
+		    			break;
+		    		case 7: case 'carouselLeft':   // Carousel Left
+		    			nextslide.animate({left : -base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+						liveslide.animate({ left: base.$el.width(), avoidTransforms : false }, base.options.transition_speed );
+		    			break;
+		    	}
+			    return false;	
+			};
+
+
+			/* Previous Slide
+			----------------------------*/
+			base.prevSlide = function(){
+
+				if(vars.in_animation || !api.options.slideshow) return false;		// Abort if currently animating
+					else vars.in_animation = true;		// Otherwise set animation marker
+
+				clearInterval(vars.slideshow_interval);	// Stop slideshow
+
+				var slides = base.options.slides,					// Pull in slides array
+					liveslide = base.$el.find('.activeslide');		// Find active slide
+					$('.prevslide').removeClass('prevslide');
+					liveslide.removeClass('activeslide').addClass('prevslide');		// Remove active class & update previous slide
+
+				// Get current slide number
+				vars.current_slide == 0 ?  vars.current_slide = base.options.slides.length - 1 : vars.current_slide-- ;
+
+			    var nextslide =  $(base.el+' li:eq('+vars.current_slide+')'),
+			    	prevslide =  base.$el.find('.prevslide');
+
+				// If hybrid mode is on drop quality for transition
+				if (base.options.performance == 1) base.$el.removeClass('quality').addClass('speed');	
+
+
+				/*-----Load Image-----*/
+
+				loadSlide = vars.current_slide;
+
+				var targetList = base.el+' li:eq('+loadSlide+')';
+				if (!$(targetList).html()){
+					// If links should open in new window
+					var linkTarget = base.options.new_window ? ' target="_blank"' : '';
+					imageLink = (base.options.slides[loadSlide].url) ? "href='" + base.options.slides[loadSlide].url + "'" : "";	// If link exists, build it
+					var img = $('<img src="'+base.options.slides[loadSlide].image+'"/>'); 
+
+					img.appendTo(targetList).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading').css('visibility','hidden');
+
+					img.load(function(){
+						base._origDim($(this));
+						base.resizeNow();
+					});	// End Load
+				};
+
+				// Update thumbnails (if enabled)
+				if (base.options.thumbnail_navigation == 1){
+
+					// Load previous thumbnail
+					prevThumb = loadSlide;
+					$(vars.prev_thumb).html($("<img/>").attr("src", base.options.slides[prevThumb].image));
+
+					// Load next thumbnail
+					vars.current_slide == base.options.slides.length - 1 ? nextThumb = 0 : nextThumb = vars.current_slide + 1;
+					$(vars.next_thumb).html($("<img/>").attr("src", base.options.slides[nextThumb].image));
+				}
+
+				/*-----End Load Image-----*/
+
+
+				// Call theme function for before slide transition
+				if( typeof theme != 'undefined' && typeof theme.beforeAnimation == "function" ) theme.beforeAnimation('prev');
+
+				//Update slide markers
+				if (base.options.slide_links){
+					$('.current-slide').removeClass('current-slide');
+					$(vars.slide_list +'> li' ).eq(vars.current_slide).addClass('current-slide');
+				}
+
+			    nextslide.css('visibility','hidden').addClass('activeslide');	// Update active slide
+
+			    switch(base.options.transition){
+		    		case 0: case 'none':	// No transition
+		    		    nextslide.css('visibility','visible'); vars.in_animation = false; base.afterAnimation();
+		    		    break;
+		    		case 1: case 'fade':	// Fade
+		    		  	nextslide.animate({opacity : 0},0).css('visibility','visible').animate({opacity : 1, avoidTransforms : false}, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    		    break;
+		    		case 2: case 'slideTop':	// Slide Top (reverse)
+		    		    nextslide.animate({top : base.$el.height()}, 0 ).css('visibility','visible').animate({ top:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    		    break;
+		    		case 3: case 'slideRight':	// Slide Right (reverse)
+		    			nextslide.animate({left : -base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    			break;
+		    		case 4: case 'slideBottom': // Slide Bottom (reverse)
+		    			nextslide.animate({top : -base.$el.height()}, 0 ).css('visibility','visible').animate({ top:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    			break;
+		    		case 5: case 'slideLeft':  // Slide Left (reverse)
+		    			nextslide.animate({left : base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+		    			break;
+		    		case 6: case 'carouselRight':	// Carousel Right (reverse)
+		    			nextslide.animate({left : -base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+						liveslide.animate({left : 0}, 0 ).animate({ left: base.$el.width(), avoidTransforms : false}, base.options.transition_speed );
+		    			break;
+		    		case 7: case 'carouselLeft':   // Carousel Left (reverse)
+		    			nextslide.animate({left : base.$el.width()}, 0 ).css('visibility','visible').animate({ left:0, avoidTransforms : false }, base.options.transition_speed, function(){ base.afterAnimation(); });
+						liveslide.animate({left : 0}, 0 ).animate({ left: -base.$el.width(), avoidTransforms : false }, base.options.transition_speed );
+		    			break;
+		    	}
+			    return false;	
+			};
+
+
+			/* Play/Pause Toggle
+			----------------------------*/
+			base.playToggle = function(){
+
+				if (vars.in_animation || !api.options.slideshow) return false;		// Abort if currently animating
+
+				if (vars.is_paused){
+
+					vars.is_paused = false;
+
+					// Call theme function for play
+					if( typeof theme != 'undefined' && typeof theme.playToggle == "function" ) theme.playToggle('play');
+
+					// Resume slideshow
+		        	vars.slideshow_interval = setInterval(base.nextSlide, base.options.slide_interval);
+
+	        	}else{
+
+	        		vars.is_paused = true;
+
+	        		// Call theme function for pause
+	        		if( typeof theme != 'undefined' && typeof theme.playToggle == "function" ) theme.playToggle('pause');
+
+	        		// Stop slideshow
+	        		clearInterval(vars.slideshow_interval);	
+
+	       		}
+
+			    return false;
+
+	    	};
+
+
+	    	/* Go to specific slide
+			----------------------------*/
+	    	base.goTo = function(targetSlide){
+				if (vars.in_animation || !api.options.slideshow) return false;		// Abort if currently animating
+
+				var totalSlides = base.options.slides.length;
+
+				// If target outside range
+				if(targetSlide < 0){
+					targetSlide = totalSlides;
+				}else if(targetSlide > totalSlides){
+					targetSlide = 1;
+				}
+				targetSlide = totalSlides - targetSlide + 1;
+
+				clearInterval(vars.slideshow_interval);	// Stop slideshow, prevent buildup
+
+				// Call theme function for goTo trigger
+				if (typeof theme != 'undefined' && typeof theme.goTo == "function" ) theme.goTo();
+
+				if (vars.current_slide == totalSlides - targetSlide){
+					if(!(vars.is_paused)){
+						vars.slideshow_interval = setInterval(base.nextSlide, base.options.slide_interval);
+					} 
+					return false;
+				}
+
+				// If ahead of current position
+				if(totalSlides - targetSlide > vars.current_slide ){
+
+					// Adjust for new next slide
+					vars.current_slide = totalSlides-targetSlide-1;
+					vars.update_images = 'next';
+					base._placeSlide(vars.update_images);
+
+				//Otherwise it's before current position
+				}else if(totalSlides - targetSlide < vars.current_slide){
+
+					// Adjust for new prev slide
+					vars.current_slide = totalSlides-targetSlide+1;
+					vars.update_images = 'prev';
+				    base._placeSlide(vars.update_images);
+
+				}
+
+				// set active markers
+				if (base.options.slide_links){
+					$(vars.slide_list +'> .current-slide').removeClass('current-slide');
+					$(vars.slide_list +'> li').eq((totalSlides-targetSlide)).addClass('current-slide');
+				}
+
+				if (base.options.thumb_links){
+					$(vars.thumb_list +'> .current-thumb').removeClass('current-thumb');
+					$(vars.thumb_list +'> li').eq((totalSlides-targetSlide)).addClass('current-thumb');
+				}
+
+			};
+
+
+	        /* Place Slide
+			----------------------------*/
+	        base._placeSlide = function(place){
+
+				// If links should open in new window
+				var linkTarget = base.options.new_window ? ' target="_blank"' : '';
+
+				loadSlide = false;
+
+				if (place == 'next'){
+
+					vars.current_slide == base.options.slides.length - 1 ? loadSlide = 0 : loadSlide = vars.current_slide + 1;	// Determine next slide
+
+					var targetList = base.el+' li:eq('+loadSlide+')';
+
+					if (!$(targetList).html()){
+						// If links should open in new window
+						var linkTarget = base.options.new_window ? ' target="_blank"' : '';
+
+						imageLink = (base.options.slides[loadSlide].url) ? "href='" + base.options.slides[loadSlide].url + "'" : "";	// If link exists, build it
+						var img = $('<img src="'+base.options.slides[loadSlide].image+'"/>'); 
+
+						img.appendTo(targetList).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading').css('visibility','hidden');
+
+						img.load(function(){
+							base._origDim($(this));
+							base.resizeNow();
+						});	// End Load
+					};
+
+					base.nextSlide();
+
+				}else if (place == 'prev'){
+
+					vars.current_slide - 1 < 0  ? loadSlide = base.options.slides.length - 1 : loadSlide = vars.current_slide - 1;	// Determine next slide
+
+					var targetList = base.el+' li:eq('+loadSlide+')';
+
+					if (!$(targetList).html()){
+						// If links should open in new window
+						var linkTarget = base.options.new_window ? ' target="_blank"' : '';
+
+						imageLink = (base.options.slides[loadSlide].url) ? "href='" + base.options.slides[loadSlide].url + "'" : "";	// If link exists, build it
+						var img = $('<img src="'+base.options.slides[loadSlide].image+'"/>'); 
+
+						img.appendTo(targetList).wrap('<a ' + imageLink + linkTarget + '></a>').parent().parent().addClass('image-loading').css('visibility','hidden');
+
+						img.load(function(){
+							base._origDim($(this));
+							base.resizeNow();
+						});	// End Load
+					};
+					base.prevSlide();
+				}
+
+			};
+
+
+			/* Get Original Dimensions
+			----------------------------*/
+			base._origDim = function(targetSlide){
+				targetSlide.data('origWidth', targetSlide.width()).data('origHeight', targetSlide.height());
+			};
+
+
+			/* After Slide Animation
+			----------------------------*/
+			base.afterAnimation = function(){
+
+				// If hybrid mode is on swap back to higher image quality
+				if (base.options.performance == 1){
+			    	base.$el.removeClass('speed').addClass('quality');
+				}
+
+				// Update previous slide
+				if (vars.update_images){
+					vars.current_slide - 1 < 0  ? setPrev = base.options.slides.length - 1 : setPrev = vars.current_slide-1;
+					vars.update_images = false;
+					$('.prevslide').removeClass('prevslide');
+					$(base.el+' li:eq('+setPrev+')').addClass('prevslide');
+				}
+
+				vars.in_animation = false;
+
+				// Resume slideshow
+				if (!vars.is_paused && base.options.slideshow){
+					vars.slideshow_interval = setInterval(base.nextSlide, base.options.slide_interval);
+					if (base.options.stop_loop && vars.current_slide == base.options.slides.length - 1 ) base.playToggle();
+				}
+
+				// Call theme function for after slide transition
+				if (typeof theme != 'undefined' && typeof theme.afterAnimation == "function" ) theme.afterAnimation();
+
+				return false;
+
+			};
+
+			base.getField = function(field){
+				return base.options.slides[vars.current_slide][field];
+			};
+
+	        // Make it go!
+	        base.init();
+		};
+
+
+		/* Global Variables
+		----------------------------*/
+		$.supersized.vars = {
+
+			// Elements							
+			thumb_tray			:	'#thumb-tray',	// Thumbnail tray
+			thumb_list			:	'#thumb-list',	// Thumbnail list
+			slide_list          :   '#slide-list',	// Slide link list
+
+			// Internal variables
+			current_slide			:	0,			// Current slide number
+			in_animation 			:	false,		// Prevents animations from stacking
+			is_paused 				: 	false,		// Tracks paused on/off
+			hover_pause				:	false,		// If slideshow is paused from hover
+			slideshow_interval		:	false,		// Stores slideshow timer					
+			update_images 			: 	false,		// Trigger to update images after slide jump
+			options					:	{}			// Stores assembled options list
+
+		};
+
+
+		/* Default Options
+		----------------------------*/
+		$.supersized.defaultOptions = {
+
+	    	// Functionality
+			slideshow               :   1,			// Slideshow on/off
+			autoplay				:	1,			// Slideshow starts playing automatically
+			start_slide             :   1,			// Start slide (0 is random)
+			stop_loop				:	0,			// Stops slideshow on last slide
+			random					: 	0,			// Randomize slide order (Ignores start slide)
+			slide_interval          :   5000,		// Length between transitions
+			transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+			transition_speed		:	750,		// Speed of transition
+			new_window				:	1,			// Image links open in new window/tab
+			pause_hover             :   0,			// Pause slideshow on hover
+			keyboard_nav            :   1,			// Keyboard navigation on/off
+			performance				:	1,			// 0-Normal, 1-Hybrid speed/quality, 2-Optimizes image quality, 3-Optimizes transition speed //  (Only works for Firefox/IE, not Webkit)
+			image_protect			:	1,			// Disables image dragging and right click with Javascript
+
+			// Size & Position
+			fit_always				:	0,			// Image will never exceed browser width or height (Ignores min. dimensions)
+			fit_landscape			:   0,			// Landscape images will not exceed browser width
+			fit_portrait         	:   1,			// Portrait images will not exceed browser height  			   
+			min_width		        :   0,			// Min width allowed (in pixels)
+			min_height		        :   0,			// Min height allowed (in pixels)
+			horizontal_center       :   1,			// Horizontally center background
+			vertical_center         :   1,			// Vertically center background
+
+
+			// Components							
+			slide_links				:	1,			// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+			thumb_links				:	1,			// Individual thumb links for each slide
+			thumbnail_navigation    :   0			// Thumbnail navigation
+
+	    };
+
+	    $.fn.supersized = function(options){
+	        return this.each(function(){
+	            (new $.supersized(options));
+	        });
+	    };
+
+
+	/*
+
+		Supersized - Fullscreen Slideshow jQuery Plugin
+		Version : 3.2.6
+		Theme 	: Shutter 1.1
+
+		Site	: www.buildinternet.com/project/supersized
+		Author	: Sam Dunn
+		Company : One Mighty Roar (www.onemightyroar.com)
+		License : MIT License / GPL License
+
+	*/
+
+		theme = {
+
+
+		 	/* Initial Placement
+			----------------------------*/
+		 	_init : function(){
+
+		 		// Center Slide Links
+		 		if (api.options.slide_links) $(vars.slide_list).css('margin-left', -$(vars.slide_list).width()/2);
+
+				// Start progressbar if autoplay enabled
+	    		if (api.options.autoplay){
+	    			if (api.options.progress_bar) theme.progressBar();
+				}else{
+					if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", vars.image_path + "play.png");	// If pause play button is image, swap src
+					if (api.options.progress_bar) $(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );	//  Place progress bar
+				}
+
+
+				/* Thumbnail Tray
+				----------------------------*/
+				// Hide tray off screen
+				$(vars.thumb_tray).animate({bottom : -$(vars.thumb_tray).height()}, 0 );
+
+				// Thumbnail Tray Toggle
+				$(vars.tray_button).toggle(function(){
+					$(vars.thumb_tray).stop().animate({bottom : 0, avoidTransforms : true}, 300 );
+					if ($(vars.tray_arrow).attr('src')) $(vars.tray_arrow).attr("src", vars.image_path + "button-tray-down.png");
+					return false;
+				}, function() {
+					$(vars.thumb_tray).stop().animate({bottom : -$(vars.thumb_tray).height(), avoidTransforms : true}, 300 );
+					if ($(vars.tray_arrow).attr('src')) $(vars.tray_arrow).attr("src", vars.image_path + "button-tray-up.png");
+					return false;
+				});
+
+				// Make thumb tray proper size
+				$(vars.thumb_list).width($('> li', vars.thumb_list).length * $('> li', vars.thumb_list).outerWidth(true));	//Adjust to true width of thumb markers
+
+				// Display total slides
+				if ($(vars.slide_total).length){
+					$(vars.slide_total).html(api.options.slides.length);
+				}
+
+
+				/* Thumbnail Tray Navigation
+				----------------------------*/	
+				if (api.options.thumb_links){
+					//Hide thumb arrows if not needed
+					if ($(vars.thumb_list).width() <= $(vars.thumb_tray).width()){
+						$(vars.thumb_back +','+vars.thumb_forward).fadeOut(0);
+					}
+
+					// Thumb Intervals
+	        		vars.thumb_interval = Math.floor($(vars.thumb_tray).width() / $('> li', vars.thumb_list).outerWidth(true)) * $('> li', vars.thumb_list).outerWidth(true);
+	        		vars.thumb_page = 0;
+
+	        		// Cycle thumbs forward
+	        		$(vars.thumb_forward).click(function(){
+	        			if (vars.thumb_page - vars.thumb_interval <= -$(vars.thumb_list).width()){
+	        				vars.thumb_page = 0;
+	        				$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+	        			}else{
+	        				vars.thumb_page = vars.thumb_page - vars.thumb_interval;
+	        				$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+	        			}
+	        		});
+
+	        		// Cycle thumbs backwards
+	        		$(vars.thumb_back).click(function(){
+	        			if (vars.thumb_page + vars.thumb_interval > 0){
+	        				vars.thumb_page = Math.floor($(vars.thumb_list).width() / vars.thumb_interval) * -vars.thumb_interval;
+	        				if ($(vars.thumb_list).width() <= -vars.thumb_page) vars.thumb_page = vars.thumb_page + vars.thumb_interval;
+	        				$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+						}else{
+	        				vars.thumb_page = vars.thumb_page + vars.thumb_interval;
+	        				$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+	        			}
+	        		});
+
+				}
+
+
+				/* Navigation Items
+				----------------------------*/
+			    $(vars.next_slide).click(function() {
+			    	api.nextSlide();
+			    });
+
+			    $(vars.prev_slide).click(function() {
+			    	api.prevSlide();
+			    });
+
+			    	// Full Opacity on Hover
+			    	if(jQuery.support.opacity){
+				    	$(vars.prev_slide +','+vars.next_slide).mouseover(function() {
+						   $(this).stop().animate({opacity:1},100);
+						}).mouseout(function(){
+						   $(this).stop().animate({opacity:0.6},100);
+						});
+					}
+
+				if (api.options.thumbnail_navigation){
+					// Next thumbnail clicked
+					$(vars.next_thumb).click(function() {
+				    	api.nextSlide();
+				    });
+				    // Previous thumbnail clicked
+				    $(vars.prev_thumb).click(function() {
+				    	api.prevSlide();
+				    });
+				}
+
+			    $(vars.play_button).click(function() {
+					api.playToggle();						    
+			    });
+
+
+				/* Thumbnail Mouse Scrub
+				----------------------------*/
+	    		if (api.options.mouse_scrub){
+					$(vars.thumb_tray).mousemove(function(e) {
+						var containerWidth = $(vars.thumb_tray).width(),
+							listWidth = $(vars.thumb_list).width();
+						if (listWidth > containerWidth){
+							var mousePos = 1,
+								diff = e.pageX - mousePos;
+							if (diff > 10 || diff < -10) { 
+							    mousePos = e.pageX; 
+							    newX = (containerWidth - listWidth) * (e.pageX/containerWidth);
+							    diff = parseInt(Math.abs(parseInt($(vars.thumb_list).css('left'))-newX )).toFixed(0);
+							    $(vars.thumb_list).stop().animate({'left':newX}, {duration:diff*3, easing:'easeOutExpo'});
+							}
+						}
+					});
+				}
+
+
+				/* Window Resize
+				----------------------------*/
+				$(window).resize(function(){
+
+					// Delay progress bar on resize
+					if (api.options.progress_bar && !vars.in_animation){
+						if (vars.slideshow_interval) clearInterval(vars.slideshow_interval);
+						if (api.options.slides.length - 1 > 0) clearInterval(vars.slideshow_interval);
+
+						$(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );
+
+						if (!vars.progressDelay && api.options.slideshow){
+							// Delay slideshow from resuming so Chrome can refocus images
+							vars.progressDelay = setTimeout(function() {
+									if (!vars.is_paused){
+										theme.progressBar();
+										vars.slideshow_interval = setInterval(api.nextSlide, api.options.slide_interval);
+									}
+									vars.progressDelay = false;
+							}, 1000);
+						}
+					}
+
+					// Thumb Links
+					if (api.options.thumb_links && vars.thumb_tray.length){
+						// Update Thumb Interval & Page
+						vars.thumb_page = 0;	
+						vars.thumb_interval = Math.floor($(vars.thumb_tray).width() / $('> li', vars.thumb_list).outerWidth(true)) * $('> li', vars.thumb_list).outerWidth(true);
+
+						// Adjust thumbnail markers
+						if ($(vars.thumb_list).width() > $(vars.thumb_tray).width()){
+							$(vars.thumb_back +','+vars.thumb_forward).fadeIn('fast');
+							$(vars.thumb_list).stop().animate({'left':0}, 200);
+						}else{
+							$(vars.thumb_back +','+vars.thumb_forward).fadeOut('fast');
+						}
+
+					}
+				});	
+
+
+		 	},
+
+
+		 	/* Go To Slide
+			----------------------------*/
+		 	goTo : function(){
+		 		if (api.options.progress_bar && !vars.is_paused){
+					$(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );
+					theme.progressBar();
+				}
+			},
+
+		 	/* Play & Pause Toggle
+			----------------------------*/
+		 	playToggle : function(state){
+
+		 		if (state =='play'){
+		 			// If image, swap to pause
+		 			if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", vars.image_path + "pause.png");
+					if (api.options.progress_bar && !vars.is_paused) theme.progressBar();
+		 		}else if (state == 'pause'){
+		 			// If image, swap to play
+		 			if ($(vars.play_button).attr('src')) $(vars.play_button).attr("src", vars.image_path + "play.png");
+	        		if (api.options.progress_bar && vars.is_paused)$(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );
+		 		}
+
+		 	},
+
+
+		 	/* Before Slide Transition
+			----------------------------*/
+		 	beforeAnimation : function(direction){
+			    if (api.options.progress_bar && !vars.is_paused) $(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 );
+
+			  	/* Update Fields
+			  	----------------------------*/
+			  	// Update slide caption
+			   	if ($(vars.slide_caption).length){
+			   		(api.getField('title')) ? $(vars.slide_caption).html(api.getField('title')) : $(vars.slide_caption).html('');
+			   	}
+			    // Update slide number
+				if (vars.slide_current.length){
+				    $(vars.slide_current).html(vars.current_slide + 1);
+				}
+
+
+			    // Highlight current thumbnail and adjust row position
+			    if (api.options.thumb_links){
+
+					$('.current-thumb').removeClass('current-thumb');
+					$('li', vars.thumb_list).eq(vars.current_slide).addClass('current-thumb');
+
+					// If thumb out of view
+					if ($(vars.thumb_list).width() > $(vars.thumb_tray).width()){
+						// If next slide direction
+						if (direction == 'next'){
+							if (vars.current_slide == 0){
+								vars.thumb_page = 0;
+								$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+							} else if ($('.current-thumb').offset().left - $(vars.thumb_tray).offset().left >= vars.thumb_interval){
+		        				vars.thumb_page = vars.thumb_page - vars.thumb_interval;
+		        				$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+							}
+						// If previous slide direction
+						}else if(direction == 'prev'){
+							if (vars.current_slide == api.options.slides.length - 1){
+								vars.thumb_page = Math.floor($(vars.thumb_list).width() / vars.thumb_interval) * -vars.thumb_interval;
+								if ($(vars.thumb_list).width() <= -vars.thumb_page) vars.thumb_page = vars.thumb_page + vars.thumb_interval;
+								$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+							} else if ($('.current-thumb').offset().left - $(vars.thumb_tray).offset().left < 0){
+								if (vars.thumb_page + vars.thumb_interval > 0) return false;
+		        				vars.thumb_page = vars.thumb_page + vars.thumb_interval;
+		        				$(vars.thumb_list).stop().animate({'left': vars.thumb_page}, {duration:500, easing:'easeOutExpo'});
+							}
+						}
+					}
+
+
+				}
+
+		 	},
+
+
+		 	/* After Slide Transition
+			----------------------------*/
+		 	afterAnimation : function(){
+		 		if (api.options.progress_bar && !vars.is_paused) theme.progressBar();	//  Start progress bar
+		 	},
+
+
+		 	/* Progress Bar
+			----------------------------*/
+			progressBar : function(){
+	    		$(vars.progress_bar).stop().animate({left : -$(window).width()}, 0 ).animate({ left:0 }, api.options.slide_interval);
+	    	}
+
+
+		 };
+
+
+		 /* Theme Specific Variables
+		 ----------------------------*/
+		 $.supersized.themeVars = {
+
+		 	// Internal Variables
+			progress_delay		:	false,				// Delay after resize before resuming slideshow
+			thumb_page 			: 	false,				// Thumbnail page
+			thumb_interval 		: 	false,				// Thumbnail interval
+			image_path			:	'img/',				// Default image path
+
+			// General Elements							
+			play_button			:	'#pauseplay',		// Play/Pause button
+			next_slide			:	'#nextslide',		// Next slide button
+			prev_slide			:	'#prevslide',		// Prev slide button
+			next_thumb			:	'#nextthumb',		// Next slide thumb button
+			prev_thumb			:	'#prevthumb',		// Prev slide thumb button
+
+			slide_caption		:	'#slidecaption',	// Slide caption
+			slide_current		:	'.slidenumber',		// Current slide number
+			slide_total			:	'.totalslides',		// Total Slides
+			slide_list			:	'#slide-list',		// Slide jump list							
+
+			thumb_tray			:	'#thumb-tray',		// Thumbnail tray
+			thumb_list			:	'#thumb-list',		// Thumbnail list
+			thumb_forward		:	'#thumb-forward',	// Cycles forward through thumbnail list
+			thumb_back			:	'#thumb-back',		// Cycles backwards through thumbnail list
+			tray_arrow			:	'#tray-arrow',		// Thumbnail tray button arrow
+			tray_button			:	'#tray-button',		// Thumbnail tray button
+
+			progress_bar		:	'#progress-bar'		// Progress bar
+
+		 };												
+
+		 /* Theme Specific Options
+		 ----------------------------*/												
+		 $.supersized.themeOptions = {					
+
+			progress_bar		:	1,		// Timer for each slide											
+			mouse_scrub			:	0		// Thumbnails move with mouse
+
+		 };	
 	
+	
+	
+	
+			
 	// My actual code - Matthew Davidson
 	var imgAnchors = $("form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]").has("img");
-	var imgUrls = $.makeArray(imgAnchors.map(function(){return this.href;}));
+	var imgUrls = $.makeArray(imgAnchors.map(function(){return {image: this.href};}));
 	var slider = $("<div id='sliderDiv'><ul id='slider'><li><img src='" + imgUrls.join("'></li><li><img src='") + "'></li></ul></div>");
 	//var slider = $("<div id='sliderDiv'><ul id='slider'><li><img src='" + imgUrls.slice(0, 3).join("'></li><li><img src='") + "'></li></ul></div>");
-	$("body").append(slider);
+	//$("body").append(slider);
 	
 	$('#sliderDiv').css("width", $(window).width());
 	$('#sliderDiv').css("height", $(window).height());
@@ -31,330 +1282,113 @@ function main() {
 	//$('#sliderDiv').css("height", 400);
 	//$('#sliderDiv').css("position", "fixed");
 	
-	$('#slider').anythingSlider({
-	  // Appearance
-	  theme               : "minimalist-round", // Theme name
-	  expand              : true,     // If true, the entire slider will expand to fit the parent element
-	  resizeContents      : false,      // If true, solitary images/objects in the panel will expand to fit the viewport
-	  vertical            : false,     // If true, all panels will slide vertically; they slide horizontally otherwise
-	  showMultiple        : false,     // Set this value to a number and it will show that many slides at once
-	  easing              : "swing",   // Anything other than "linear" or "swing" requires the easing plugin or jQuery UI
-
-	  buildArrows         : true,      // If true, builds the forwards and backwards buttons
-	  buildNavigation     : false,      // If true, builds a list of anchor links to link to each panel
-	  buildStartStop      : true,      // If true, builds the start/stop button and adds slideshow functionality
-
-	  appendForwardTo     : null,      // Append forward arrow to a HTML element (jQuery Object, selector or HTMLNode), if not null
-	  appendBackTo        : null,      // Append back arrow to a HTML element (jQuery Object, selector or HTMLNode), if not null
-	  appendControlsTo    : null,      // Append controls (navigation + start-stop) to a HTML element (jQuery Object, selector or HTMLNode), if not null
-	  appendNavigationTo  : null,      // Append navigation buttons to a HTML element (jQuery Object, selector or HTMLNode), if not null
-	  appendStartStopTo   : null,      // Append start-stop button to a HTML element (jQuery Object, selector or HTMLNode), if not null
-
-	  toggleArrows        : true,     // If true, side navigation arrows will slide out on hovering & hide @ other times
-	  toggleControls      : true,     // if true, slide in controls (navigation + play/stop button) on hover and slide change, hide @ other times
-
-	  startText           : "Start",   // Start button text
-	  stopText            : "Stop",    // Stop button text
-	  forwardText         : "&raquo;", // Link text used to move the slider forward (hidden by CSS, replaced with arrow image)
-	  backText            : "&laquo;", // Link text used to move the slider back (hidden by CSS, replace with arrow image)
-	  tooltipClass        : "tooltip", // Class added to navigation & start/stop button (text copied to title if it is hidden by a negative text indent)
-
-	  // Function
-	  enableArrows        : true,      // if false, arrows will be visible, but not clickable.
-	  enableNavigation    : true,      // if false, navigation links will still be visible, but not clickable.
-	  enableStartStop     : true,      // if false, the play/stop button will still be visible, but not clickable. Previously "enablePlay"
-	  enableKeyboard      : true,      // if false, keyboard arrow keys will not work for this slider.
-
-	  // Navigation
-	  startPanel          : 1,         // This sets the initial panel
-	  changeBy            : 1,         // Amount to go forward or back when changing panels.
-	  hashTags            : false,      // Should links change the hashtag in the URL?
-	  infiniteSlides      : true,      // if false, the slider will not wrap & not clone any panels
-	  navigationFormatter : null,      // Details at the top of the file on this use (advanced use)
-	  navigationSize      : 10,     // Set this to the maximum number of visible navigation tabs; false to disable
-
-	  // Slideshow options
-	  autoPlay            : true,     // If true, the slideshow will start running; replaces "startStopped" option
-	  autoPlayLocked      : false,     // If true, user changing slides will not stop the slideshow
-	  autoPlayDelayed     : false,     // If true, starting a slideshow will delay advancing slides; if false, the slider will immediately advance to the next slide when slideshow starts
-	  pauseOnHover        : false,      // If true & the slideshow is active, the slideshow will pause on hover
-	  stopAtEnd           : false,     // If true & the slideshow is active, the slideshow will stop on the last page. This also stops the rewind effect when infiniteSlides is false.
-	  playRtl             : false,     // If true, the slideshow will move right-to-left
-
-	  // Times
-	  delay               : 7000,      // How long between slideshow transitions in AutoPlay mode (in milliseconds)
-	  resumeDelay         : 7000,     // Resume slideshow after user interaction, only if autoplayLocked is true (in milliseconds).
-	  animationTime       : 600,       // How long the slideshow transition takes (in milliseconds)
-	  delayBeforeAnimate  : 0,         // How long to pause slide animation before going to the desired slide (used if you want your "out" FX to show).
-
-	  // Callbacks
-	  onBeforeInitialize  : function(e, slider) {}, // Callback before the plugin initializes
-	  onInitialized       : function(e, slider) {}, // Callback when the plugin finished initializing
-	  onShowStart         : function(e, slider) {}, // Callback on slideshow start
-	  onShowStop          : function(e, slider) {}, // Callback after slideshow stops
-	  onShowPause         : function(e, slider) {}, // Callback when slideshow pauses
-	  onShowUnpause       : function(e, slider) {}, // Callback when slideshow unpauses - may not trigger properly if user clicks on any controls
-	  onSlideInit         : function(e, slider) {}, // Callback when slide initiates, before control animation
-	  onSlideBegin        : function(e, slider) {}, // Callback before slide animates
-	  onSlideComplete     : function(slider) {},    // Callback when slide completes; this is the only callback without an event "e" variable
-
-	  // Interactivity
-	  clickForwardArrow   : "click",         // Event used to activate forward arrow functionality (e.g. add jQuery mobile's "swiperight")
-	  clickBackArrow      : "click",         // Event used to activate back arrow functionality (e.g. add jQuery mobile's "swipeleft")
-	  clickControls       : "click focusin", // Events used to activate navigation control functionality
-	  clickSlideshow      : "click",         // Event used to activate slideshow play/stop button
-
-	  // Video
-	  resumeOnVideoEnd    : true,      // If true & the slideshow is active & a supported video is playing, it will pause the autoplay until the video is complete
-	  resumeOnVisible     : true,      // If true the video will resume playing (if previously paused, except for YouTube iframe - known issue); if false, the video remains paused.
-	  addWmodeToObject    : "opaque",  // If your slider has an embedded object, the script will automatically add a wmode parameter with this setting
-	  isVideoPlaying      : function(base){ return false; } // return true if video is playing or false if not - used by video extension
+	$.supersized({
+		autoplay				: 	0, 
+		image_protect			: 	0,
+		slide_interval          :   8000,		// Length between transitions
+		transition              :   3, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+		transition_speed		:	700,		// Speed of transition
+												   
+		// Components							
+		slide_links	:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+		slides 		:  	imgUrls.slice(0, 3)
 	});
 }
 
 
-GM_addStyle("/*\
-	AnythingSlider v1.7+ themes\
-	Default 1 theme - no images/css3\
-*/\
+
+/*
+	Supersized - Fullscreen Slideshow jQuery Plugin
+	Version : 3.2.6
+	Site	: www.buildinternet.com/project/supersized
+	
+	Author	: Sam Dunn
+	Company : One Mighty Roar (www.onemightyroar.com)
+	License : MIT License / GPL License
+*/
+GM_addStyle("\
 \
-/****************************\
- SET DEFAULT DIMENSIONS HERE\
- ****************************/\
-/* Change the ID to match your slider */\
-#slider {\
-	width: 1000px;\
-	height: 390px;\
-	list-style: none;\
-	/* Prevent FOUC (see FAQ page) and keep things readable if javascript is disabled */\
-	overflow-y: auto;\
-	overflow-x: hidden;\
-}\
+* { margin:0; padding:0; }\
+body { background:#111; height:100%; }\
+	img { border:none; }\
+	\
+	#supersized-loader { position:absolute; top:50%; left:50%; z-index:2000; width:60px; height:60px; margin:-30px 0 0 -30px; text-indent:-999em; background:url(../img/progress.gif) no-repeat center center;}\
+	\
+	#supersized {  display:block; position:fixed; left:0; top:0; overflow:hidden; z-index:1001; height:100%; width:100%; }\
+		#supersized img { width:auto; height:auto; position:relative; display:none; outline:none; border:none; }\
+			#supersized.speed img { -ms-interpolation-mode:nearest-neighbor; image-rendering: -moz-crisp-edges; }	/*Speed*/\
+			#supersized.quality img { -ms-interpolation-mode:bicubic; image-rendering: optimizeQuality; }			/*Quality*/\
+		\
+		#supersized li { display:block; list-style:none; z-index:1970; position:fixed; overflow:hidden; top:0; left:0; width:100%; height:100%; background:#111; }\
+		#supersized a { width:100%; height:100%; display:block; }\
+			#supersized li.prevslide { z-index:1980; }\
+			#supersized li.activeslide { z-index:1990; }\
+			#supersized li.image-loading { background:#111 url(../img/progress.gif) no-repeat center center; width:100%; height:100%; }\
+				#supersized li.image-loading img{ visibility:hidden; }\
+			#supersized li.prevslide img, #supersized li.activeslide img{ display:inline; }\
 \
-/* Opera width restriction */\
-.anythingBase {\
-	max-width: 32766px;\
-	background: transparent;\
-	list-style: none;\
-	position: fixed;\
-	top: 0;\
-	left: 0;\
-	margin: 0;\
-	padding: 0;\
-	/* override the #slider overflow above, once the class is added */\
-	overflow: visible !important;\
-}\
+/* Controls Bar\
+----------------------------*/\
+#controls-wrapper { margin:0 auto; height:42px; width:100%; bottom:0px; left:0; z-index:2004; background:url(../img/nav-bg.png) repeat-x; position:fixed; }\
+	#controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:2005; }\
+		#slidecounter { float:left; color:#999; font:14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 0 -1px 0; margin:0px 10px 0 15px; line-height:42px; }\
+		#slidecaption { overflow:hidden; float:left; color:#FFF; font:400 14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 1px 1px 2px; margin:0 20px 0 0; line-height:42px; }\
+		\
+		#navigation { float:right; margin:0px 20px 0 0; }\
+			#play-button{ float:left; margin-top:1px;border-right:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
+				#play-button:hover{ background-position:0 1px; cursor:pointer; }\
+			\
+			#prevslide, #nextslide{ position:absolute; height:43px; width:43px; top:50%; margin-top:-21px; opacity:0.6; }\
+				#prevslide{ left:10px; background:url('../img/back.png'); }\
+				#nextslide{ right:10px; background:url('../img/forward.png'); }\
+					#prevslide:active, #nextslide:active{ margin-top:-19px; }\
+					#prevslide:hover, #nextslide:hover{ cursor:pointer; }\
+			\
+			ul#slide-list{ padding:15px 0; float:left; position:absolute; left:50%; }\
+				ul#slide-list li{ list-style:none; width:12px; height:12px; float:left; margin:0 5px 0 0; }\
+					ul#slide-list li.current-slide a, ul#slide-list li.current-slide a:hover{ background-position:0 0px; }\
+					ul#slide-list li a{ display:block; width:12px; height:12px; background:url('../img/nav-dot.png') no-repeat 0 -24px; }\
+						ul#slide-list li a:hover{ background-position:0 -12px; cursor:pointer; }\
+			\
+			#tray-button{ float:right; margin-top:1px; border-left:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
+				#tray-button:hover{ background-position:0 1px; cursor:pointer; }\
+	\
 \
-/*************\
- ACTIVE STATE (slider has keyboard focus)\
- *************/\
-/* slider window - top & bottom borders, active state */\
-div.anythingSlider-default1.activeSlider .anythingWindow {\
-	border-color: #6699aa;\
-}\
-/* Text arrows */\
-div.anythingSlider-default1.activeSlider .arrow a:link {\
-	color: #6699aa;\
-}\
-div.anythingSlider-default1.activeSlider .arrow a:hover {\
-	color: #44bbcc;\
-}\
-/* Navigation tabs, active state */\
-div.anythingSlider-default1.activeSlider .anythingControls ul a:link {\
-	background-color: #6699aa;\
-	color: #ddd;\
-}\
-div.anythingSlider-default1.activeSlider .anythingControls ul a.cur:link,\
-div.anythingSlider-default1.activeSlider .anythingControls ul a:hover,\
-div.anythingSlider-default1.activeSlider .anythingControls ul a.hover {\
-	background-color: #44bbcc;\
-}\
-/* start-stop button, stopped, active state */\
-div.anythingSlider-default1.activeSlider .start-stop {\
-	background-color: #6699aa;\
-}\
-/* start-stop button, stopped, active state, hovered */\
-div.anythingSlider-default1.activeSlider .start-stop:hover,\
-div.anythingSlider-default1.activeSlider .start-stop.hover {\
-	background-color: #44bbcc;\
-}\
-/* start-stop button, playing, active state */\
-div.anythingSlider-default1.activeSlider .start-stop.playing:link {\
-	background-color: #d00;\
-}\
-/* start-stop button, playing, active state, hovered */\
-div.anythingSlider-default1.activeSlider .start-stop.playing:hover,\
-div.anythingSlider-default1.activeSlider .start-stop.playing.hover {\
-	background-color: #a00;\
-}\
+/* Progress Bar\
+----------------------------*/					\
+#progress-back{ z-index:2005; position:fixed; bottom:42px; left:0; height:8px; width:100%; background:url('../img/progress-back.png') repeat-x; }\
+	#progress-bar{ position:relative; height:8px; width:100%; background:url('../img/progress-bar.png') repeat-x; }\
 \
-/*****************\
- DEFAULT STATE (no keyboard focus)\
- *****************/\
 \
-/* Slider window - top & bottom borders, default state */\
-div.anythingSlider-default1 .anythingWindow {\
-	border-top: 3px solid #777;\
-	border-bottom: 3px solid #777;\
-	overflow: hidden;\
-	position: relative;\
-	width: 100%;\
-	height: 100%;\
-}\
-/* Text arrows */\
-div.anythingSlider-default1 .arrow a:link {\
-	color: #777;\
-}\
-div.anythingSlider-default1 .arrow a:hover {\
-	color: #999;\
-}\
-/* Disabled arrows - infiniteSlide = false & stopAtEnd = true */\
-div.anythingSlider-default1 .back.disabled,\
-div.anythingSlider-default1 .forward.disabled {\
-	display: none;\
-}\
-/* Navigation tabs */\
-div.anythingSlider-default1 .anythingControls ul a.cur,\
-div.anythingSlider-default1 .anythingControls ul a {\
-	background: #777;\
-	color: #ddd;\
-}\
-div.anythingSlider-default1 .anythingControls ul a.cur:hover,\
-div.anythingSlider-default1 .anythingControls ul a.hover,\
-div.anythingSlider-default1 .anythingControls ul a:hover {\
-	background: #999;\
-}\
-/* Start/stop button - stopped */\
-div.anythingSlider-default1 .start-stop {\
-	background-color: #779;\
-	color: #ddd;\
-	font: 10px/14px Georgia, Serif;\
-	width: 40px;\
-	text-align: center;\
-	text-decoration: none;\
-	float: right;\
-	z-index: 100;\
-	outline: 0;\
-	padding: 2px 5px;\
-}\
-/* Start/stop button - stopped */\
-div.anythingSlider-default1 .start-stop:hover,\
-div.anythingSlider-default1 .start-stop.hover {\
-	background-color: #88a;\
-}\
-/* start/stop button - playing */\
-div.anythingSlider-default1 .start-stop.playing {\
-	background-color: #300;\
-}\
-div.anythingSlider-default1 .start-stop.playing:hover,\
-div.anythingSlider-default1 .start-stop.playing.hover {\
-	background-color: #700;\
-}\
+/* Thumbnail Navigation\
+----------------------------*/	\
+#nextthumb,#prevthumb { z-index:2002; display:none; position:fixed; bottom:61px; height:75px; width:100px; overflow:hidden; background:#ddd; border:1px solid #fff; -webkit-box-shadow:0 0 5px #000; }\
+	#nextthumb { right:12px; }\
+	#prevthumb { left:12px; }\
+		#nextthumb img, #prevthumb img { width:150px; height:auto;  }\
+		#nextthumb:active, #prevthumb:active { bottom:59px; }\
+		#nextthumb:hover, #prevthumb:hover { cursor:pointer; }\
 \
-/***********************\
-  COMMON SLIDER STYLING\
- ***********************/\
-/* Overall Wrapper */\
-div.anythingSlider-default1 {\
-	display: block;\
-	position: relative;\
-	margin: 0 auto;\
-	padding: 0; /* adjust left/right padding here to move arrows towards or away from the center */\
-}\
 \
-/* Panels/Slides */\
-.anythingBase .panel {\
-	background: transparent;\
-	display: block;\
-	overflow: hidden;\
-	float: left;\
-	margin: 0;\
-	padding: 0;\
-}\
-/* Vertical panels */\
-.anythingBase .panel.vertical {\
-	float: none;\
-}\
-\
-/* Arrow buttons position */\
-div.anythingSlider-default1 .arrow {\
-	top: 50%;\
-	position: absolute;\
-	display: block;\
-}\
-div.anythingSlider-default1 span.back {\
-	left: 0;\
-}\
-div.anythingSlider-default1 span.forward {\
-	right: 0;\
-}\
-/* Arrow buttons dimensions */\
-div.anythingSlider-default1 .arrow a {\
-	display: block;\
-	height: 48px;\
-	width: 35px;\
-	text-align: center;\
-	text-decoration: none;\
-	outline: 0;\
-	margin: -26px 0 0; /* set to 1/2 height */\
-}\
-/* Arrow buttons text */\
-div.anythingSlider-default1 .arrow a span {\
-	display: block;\
-	font-size: 40px;\
-}\
-\
-/* Slider control block */\
-div.anythingSlider-default1 .anythingControls {\
-	outline: 0;\
-	float: right;\
-	position: absolute;\
-	bottom: 3px;\
-	right: 25px;\
-	z-index: 100;\
-	opacity: 0.90;\
-	filter: alpha(opacity=90);\
-}\
-/* control list */\
-div.anythingSlider-default1 .anythingControls ul {\
-	float: left;\
-	margin: 0;\
-	padding: 0;\
-}\
-/* control tabs */\
-div.anythingSlider-default1 .anythingControls ul li {\
-	display: block;\
-	float: left;\
-}\
-/* control links */\
-div.anythingSlider-default1 .anythingControls ul a {\
-	font: 10px/14px Georgia, Serif;\
-	display: block;\
-	height: 14px;\
-	text-align: center;\
-	text-decoration: none;\
-	outline: 0;\
-	margin: 0 5px 0 0;\
-	padding: 2px 8px;\
-}\
-/* control nav window (navigationSize = true) */\
-div.anythingSlider-default1 .anythingControls .anythingNavWindow {\
-	overflow: hidden;\
-	float: left;\
-}\
-\
-/* Navigation size window arrows */\
-div.anythingSlider-default1 .anythingControls li.next a span, div.anythingSlider-default1 .anythingControls li.prev a span {\
-	text-indent: 1px;\
-	margin-top: 3px;\
-}\
-div.anythingSlider-default1 .anythingControls li.prev a, div.anythingSlider-default1 .anythingControls li.next a {\
-	color: #ddd;\
-}\
-div.anythingSlider-default1 .anythingControls li.next a:hover, div.anythingSlider-default1 .anythingControls li.prev a:hover {\
-	color: #000;\
-}\
+/* Thumbnail Tray\
+----------------------------*/			\
+#thumb-tray{ position:fixed; z-index:2003; bottom:0; left:0; background:url(../img/bg-black.png); height:150px; width:100%; overflow:hidden; text-align:center; -moz-box-shadow: 0px 0px 4px #000; -webkit-box-shadow: 0px 0px 4px #000; box-shadow: 0px 0px 4px #000; }\
+	\
+	#thumb-back, #thumb-forward{ position:absolute; z-index:2005; bottom:42px; height:108px; width:40px; }\
+		#thumb-back{ left:0; background: url('../img/thumb-back.png') no-repeat center center;}\
+		#thumb-forward{ right:0; background:url('../img/thumb-forward.png') no-repeat center center;}\
+			#thumb-back:hover, #thumb-forward:hover{ cursor:pointer; background-color:rgba(256,256,256, 0.1); }\
+				#thumb-back:hover{ border-right:1px solid rgba(256,256,256, 0.2); }\
+				#thumb-forward:hover{ border-left:1px solid rgba(256,256,256, 0.2); }\
+	\
+	\
+	ul#thumb-list{ display:inline-block; list-style:none; position:relative; left:0px; padding:0 0px; }\
+		ul#thumb-list li{ background:#111; list-style:none; display:inline; width:150px; height:108px; overflow:hidden; float:left; margin:0; }\
+			ul#thumb-list li img { width:200px; height:auto; opacity:0.5; -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)\"; filter:alpha(opacity=60); }\
+			ul#thumb-list li.current-thumb img, ul#thumb-list li:hover img{ opacity:1; -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)\"; filter:alpha(opacity=100); }\
+			ul#thumb-list li:hover{ cursor:pointer; }\
 ");
+
 
 // addJQuery courtesy of Erik Vergobbi Vold
 // URL: http://erikvold.com/blog/index.cfm/2010/6/14/using-jquery-with-a-user-script
