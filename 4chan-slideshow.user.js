@@ -2,8 +2,8 @@
 // @name			4chan-Slideshow
 // @namespace		http://dial-a-davidson.net
 // @description		Creates a button for showing a slideshow of every image in the thread
-// @include			http://boards.4chan.org/*
-// @match			http://boards.4chan.org/*
+// @include			http://boards.4chan.org/*/res/*
+// @match			http://boards.4chan.org/*/res/*
 // ==/UserScript==
 
 // the guts of this userscript
@@ -12,10 +12,14 @@ function main() {
 	var pausepng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkM4MTc5NTg3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkM4MTc5NTk3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQzgxNzk1NjdEOEYxMUUwODExMUI1NjNBRTBEQTJDNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQzgxNzk1NzdEOEYxMUUwODExMUI1NjNBRTBEQTJDNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuoETW0AAADfSURBVHja7JnBDcMgDEXtqtswQts1WajtCAwTg+QmPQfwwaqAfks+8Q9+fMeyAqsqrRbMrBdaNAAGMIABDGAAA9jqYPsqE491ppLRqnGpxXNXDCHo8/U+PXvcb5RSYovGY1e8ejp2XFLOpXpm1XiEMxg1irZrBgRTkpy7jvU0APslWJY+WE8zpmMGMBG04kiOicExmQ9sM7TiNl8rUqPN7BoMD4x7TMUKGDWKJjVrxmxFbPeTTcVS+o71NG7FeOUe8fupnGe0ahzqUMYz0j//pQIYwAAGMIABDGA+8RFgAFsPxgZJaDDDAAAAAElFTkSuQmCC";
 	var buttontraydownpng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjdFODMzREM1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjdFODMzREQ1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NDMwNzU1NzUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NDMwNzU1ODUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PhV2HEoAAAJWSURBVHja7JhPaxNRFMVv0hKrKBQ3LeknyE5ciSS6dtUPUBEbaDfiSnBhUMyuthLddKHGQkrFtotgFwpagpD4JwtLNWAWInQRNOOkMHXamdRUJ55XXqBqS8bOTBnrvfCDF5I7vMM97747CRBRExGgfRZB2qfBwlgYC2NhLIyFsTAWtnfR6fQBgYB3YyZmWK4YW3E3rgQd4BA4Jz/bCUu4DhTBolz7Sph4VncoFFIHBs7+dfLCwhsqlUrHpThfCRPV6mo0GnORSKT//GDcdqKmaRSLnhTLL3614gGQTyav90djpync12crMZG4QqqqprBU3NyMo78GtrT7EOgBx8DlaOxU9O69ibb5Lwp5Gh6Kv8TyDFjbesb80u6/g1VQBVlsuDIz/ZAM09yR2vIyXbuaELn3wTe3GofbwkR3M8AnUAbPb6XGqFKpkGGY25K6OUqKUhVlnQUbfr7HRNW+giUwr+v64tiNEVoz6n9QLBZp7lH2rbAtWHezWl4Ia8pN1sAH8OD1q4KSyz37xYLaygrdTo2K36elfX/8C5OHJZtAy5L59J1xqqk1Ms36JlOZCVKqnyfxXcZtC3o9UglLatKST1Z1/d1kJk1mfZ3K5fc0//TxZpcHdbct+NsQ3aTd0ubCPgpOgAvgY3z4YrOnNyySLsk7r+1072RfXglr3W3ilhZjRTIYDIqEIXDEzizpZF9uXtA7DQAHwWE5HFuyaxrSrp69j3ktrHWOOySW7ICWnbPlRFgneR+WZIP2MPgN+r97g3ZyDrhiLIyFsTAWxsJY2PbxU4ABAAm6ttRV9+RxAAAAAElFTkSuQmCC";
 	var buttontrayuppng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDQzMDc1NTU1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDQzMDc1NTY1MEE0MTFFMEFEOTU5OUE1ODlDRDI0NDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NDMwNzU1MzUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NDMwNzU1NDUwQTQxMUUwQUQ5NTk5QTU4OUNEMjQ0MiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pk9XwK4AAAIuSURBVHja7JjNSxtBFMDffsU0CWugalFPTRQ8SEWrIPiVQA+K1SCJ6EEwtg1KBAWFVhSDnvxHPPVQ8P9oRQpexIMIlp48uZsNmqxvZBQ/wESzA2t8D35sYDPD/nbePOatBAA2hgQVFjJUaJAYiZEYiZEYiZGYC0MtdwJJEncaw6MerRiJORwSp7mSxNg+9iJroVDoAK8rXFJ4sH4MnksJL05Hon6/3/79Z9eOxxNs0FapxaOc5xIlxlblDRJGdjIbm/bR8Ym993ffDgaDbGBUpJjIVFSQamSp42Pn6Pj4JJhmFjyeKljPbLL7aZEpKQuc14e0a5qWXl3LgJXLgWGaV/RHotA/EEng/fWXJMZWwYPUIAszX1JQU1sHhmHeYWFxGXRdZ0vX9VLEFF4w5kPhpsHPsTicGdkHeH0BSH6dFZaSsoD5WMFoUVV1aTa9CFnLuknB+/T0ReBDW3sS///DzWLsrWs8Bb8PDceg7l39VcF4jKlkCqq8Xlb+W90qdp2C3+obGoc/DY6AmbWK4g/oEBubYOPnnUxJp8WCsiyvJian4eIiD5aVK4mu7l54H26ew/F9rmlb7on5FEWBXz+3nzzYxD2H8c/JfVHWJ+5b/Rg7D77lB11WwgNFXhw7fVjIKfIfOUT2kbwT/ZiTYiqviAF+1UrYM3kuZ3DOkYLbxK5bE/nW76LHQX4tcGynOmgn95jNKVAH7eaPOeWkC60YiZEYiZEYiZHYKxO7FGAA4NauLNvk2KcAAAAASUVORK5CYII=";
+	var forwardpng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkVBNENFNUM0RDBBMTFFMDhGOEQ4NTA1RTVDMDMwM0EiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkVBNENFNUQ0RDBBMTFFMDhGOEQ4NTA1RTVDMDMwM0EiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCRUE0Q0U1QTREMEExMUUwOEY4RDg1MDVFNUMwMzAzQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCRUE0Q0U1QjREMEExMUUwOEY4RDg1MDVFNUMwMzAzQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PrvXl8cAAAaqSURBVHja1Jl7TNNX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";
+	var backpng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkVBNENFNjA0RDBBMTFFMDhGOEQ4NTA1RTVDMDMwM0EiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkVBNENFNjE0RDBBMTFFMDhGOEQ4NTA1RTVDMDMwM0EiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCRUE0Q0U1RTREMEExMUUwOEY4RDg1MDVFNUMwMzAzQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCRUE0Q0U1RjREMEExMUUwOEY4RDg1MDVFNUMwMzAzQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv4q7AYAAAa5SURBVHja1Jl7TFNX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";
 
+	// Load jQuery easing library
 	jQuery.easing.jswing=jQuery.easing.swing;jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return jQuery.easing[jQuery.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-jQuery.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return jQuery.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return jQuery.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
 	
 	
+	var supersized_setup = function(){
 	/*
 
 		Supersized - Fullscreen Slideshow jQuery Plugin
@@ -902,7 +906,7 @@ function main() {
 
 	    	// Functionality
 			slideshow               :   1,			// Slideshow on/off
-			autoplay				:	1,			// Slideshow starts playing automatically
+			autoplay				:	0,			// Slideshow starts playing automatically
 			start_slide             :   1,			// Start slide (0 is random)
 			stop_loop				:	0,			// Stops slideshow on last slide
 			random					: 	0,			// Randomize slide order (Ignores start slide)
@@ -1268,23 +1272,23 @@ function main() {
 		 $.supersized.themeOptions = {					
 
 			progress_bar		:	0,		// Timer for each slide											
-			mouse_scrub			:	0		// Thumbnails move with mouse
+			mouse_scrub			:	1		// Thumbnails move with mouse
 
 		 };	
-	
-	
-	
-	
-			
-	// My actual code - Matthew Davidson
-	var imgAnchors = $("form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]").has("img");
-	//var imgUrls = $.makeArray(imgAnchors.map(function(){return {image: this.href};}));
-	//var imgThumbUrls = $.makeArray($("img", imgAnchors).map(function(){return {image: this.src};}));
-	
-	var imageInfo = $.makeArray(imgAnchors.map(function(){
-		return {image: this.href, thumb: $("img", this).attr("src")};
-		}));
-	var slideshowhtml = $('<!--Thumbnail Navigation-->\
+	};
+				
+	var slideshow_control_html = $('\
+		<div id="slideshow_control" class="reply">\
+			<h2>4chan-slideshow</h2>\
+			<input type="checkbox" name="random" id="chan_slideshow_random"/>\
+			<label for="chan_slideshow_random">Random</label><br />\
+			<input type="checkbox" name="fit_whole_image" id="chan_slideshow_fit_whole"/>\
+			<label for="chan_slideshow_fit_whole">Shrink image to screen size</label><br />\
+			<input type="text" name="slide_dur" value="7" size="3" /> Num seconds per slide<br />\
+			<input type="button" id="chan_start_slideshow" value="Start the show!" />\
+		</div>');
+		
+	var slideshow_html = $('<!--Thumbnail Navigation-->\
 		<div id="prevthumb"></div>\
 		<div id="nextthumb"></div>\
 		\
@@ -1301,7 +1305,7 @@ function main() {
 		<div id="controls-wrapper" class="load-item">\
 			<div id="controls">\
 			\
-				<a id="play-button"><img id="pauseplay" src="img/pause.png"/></a>\
+				<a id="play-button"><img id="pauseplay" src="' + pausepng + '"/></a>\
 				\
 				<!--Slide counter-->\
 				<div id="slidecounter">\
@@ -1312,7 +1316,7 @@ function main() {
 				<div id="slidecaption"></div>\
 			\
 				<!--Thumb Tray button-->\
-				<a id="tray-button"><img id="tray-arrow" src="img/button-tray-up.png"/></a>\
+				<a id="tray-button"><img id="tray-arrow" src="' + buttontrayuppng + '"/></a>\
 			\
 				<!--Navigation-->\
 				<ul id="slide-list"></ul>\
@@ -1320,108 +1324,153 @@ function main() {
 			</div>\
 		</div>\
 	');
-	$("body").append(slideshowhtml);
 	
-	$.supersized({
-		autoplay				: 	0, 
-		image_protect			: 	0,
-		slide_interval          :   7000,		// Length between transitions
-		transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
-		transition_speed		:	400,		// Speed of transition
+	// Setup control to scroll with window
+	var win				= $(window),
+        control_starty	= slideshow_control_html.offset().top,
+		control_height	= slideshow_control_html.height(),
+        top_padding 	= 20,
+		last_hr_offset	= $("hr:last").offset().top;
+
+    win.scroll(function() {
+        if (win.scrollTop() > control_starty && (slideshow_control_html.offset().top + control_height) < last_hr_offset) {
+            slideshow_control_html.stop().animate({
+                marginTop: win.scrollTop() - control_starty + top_padding
+            });
+        } 
+		else {
+            slideshow_control_html.stop().animate({
+                marginTop: top_padding
+            });
+        }
+    });
+
+	// Callback for when "start" button is clicked
+	var setup_and_start_slideshow = function(){
+		var imgAnchors = $("form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]").has("img");
+		//var imgUrls = $.makeArray(imgAnchors.map(function(){return {image: this.href};}));
+		//var imgThumbUrls = $.makeArray($("img", imgAnchors).map(function(){return {image: this.src};}));
+
+		var imageInfo = $.makeArray(imgAnchors.map(function(){
+			return {
+				image: this.href, 
+				thumb: $("img", this).attr("src")
+				};
+			}));
+
+		insert_supersized_css();
+		supersized_setup();
+		$("body").append(slideshow_html);
+		$.supersized({
+			autoplay				: 	0, 
+			image_protect			: 	0,
+			slide_interval          :   7000,		// Length between transitions
+			transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+			transition_speed		:	400,		// Speed of transition
 												   
-		// Components							
-		slide_links	:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
-		slides 		:  	imageInfo
-	});
+			// Components							
+			slide_links	:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+			slides 		:  	imageInfo
+		});
+	};
+	
+	// insert slideshow control html and attach callback
+	$("iframe + hr").after(slideshow_control_html);
+	$("#chan_start_slideshow").click(setup_and_start_slideshow);	
 }
 
-
-
-/*
-	Supersized - Fullscreen Slideshow jQuery Plugin
-	Version : 3.2.6
-	Site	: www.buildinternet.com/project/supersized
-	
-	Author	: Sam Dunn
-	Company : One Mighty Roar (www.onemightyroar.com)
-	License : MIT License / GPL License
-*/
-
+// My control panel CSS
 GM_addStyle("\
+	#slideshow_control {\
+		margin-top: 20px;\
+	    padding: 15px;\
+		position: absolute;\
+		right: 20px;\
+	    border: 6px solid black;\
+	    border-radius: 50px 25px;\
+	}\
 \
-* { margin:0; padding:0; }\
-body { background:#111; height:100%; }\
-	img { border:none; }\
+	#slideshow_control input {\
+	    margin: 4px;\
+	}\
+")
+
+// Supersized CSS
+GM_addStyle("\
 	\
-	#supersized-loader { position:absolute; top:50%; left:50%; z-index:2000; width:60px; height:60px; margin:-30px 0 0 -30px; text-indent:-999em; background:url(../img/progress.gif) no-repeat center center;}\
-	\
-	#supersized {  display:block; position:fixed; left:0; top:0; overflow:hidden; z-index:1001; height:100%; width:100%; }\
-		#supersized img { width:auto; height:auto; position:relative; display:none; outline:none; border:none; }\
-			#supersized.speed img { -ms-interpolation-mode:nearest-neighbor; image-rendering: -moz-crisp-edges; }	/*Speed*/\
-			#supersized.quality img { -ms-interpolation-mode:bicubic; image-rendering: optimizeQuality; }			/*Quality*/\
+	* { margin:0; padding:0; }\
+	/* body { background:#111; height:100%; } */ \
+		img { border:none; }\
 		\
-		#supersized li { display:block; list-style:none; z-index:1970; position:fixed; overflow:hidden; top:0; left:0; width:100%; height:100%; background:#111; }\
-		#supersized a { width:100%; height:100%; display:block; }\
-			#supersized li.prevslide { z-index:1980; }\
-			#supersized li.activeslide { z-index:1990; }\
-			#supersized li.image-loading { background:#111 url(../img/progress.gif) no-repeat center center; width:100%; height:100%; }\
-				#supersized li.image-loading img{ visibility:hidden; }\
-			#supersized li.prevslide img, #supersized li.activeslide img{ display:inline; }\
-\
-/* Controls Bar\
-----------------------------*/\
-#controls-wrapper { margin:0 auto; height:42px; width:100%; bottom:0px; left:0; z-index:2004; background:url(../img/nav-bg.png) repeat-x; position:fixed; }\
-	#controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:2005; }\
-		#slidecounter { float:left; color:#999; font:14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 0 -1px 0; margin:0px 10px 0 15px; line-height:42px; }\
-		#slidecaption { overflow:hidden; float:left; color:#FFF; font:400 14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 1px 1px 2px; margin:0 20px 0 0; line-height:42px; }\
+		#supersized-loader { position:absolute; top:50%; left:50%; z-index:2000; width:60px; height:60px; margin:-30px 0 0 -30px; text-indent:-999em; background:url(../img/progress.gif) no-repeat center center;}\
 		\
-		#navigation { float:right; margin:0px 20px 0 0; }\
-			#play-button{ float:left; margin-top:1px;border-right:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
-				#play-button:hover{ background-position:0 1px; cursor:pointer; }\
+		#supersized {  display:block; position:fixed; left:0; top:0; overflow:hidden; z-index:1001; height:100%; width:100%; }\
+			#supersized img { width:auto; height:auto; position:relative; display:none; outline:none; border:none; }\
+				#supersized.speed img { -ms-interpolation-mode:nearest-neighbor; image-rendering: -moz-crisp-edges; }	/*Speed*/\
+				#supersized.quality img { -ms-interpolation-mode:bicubic; image-rendering: optimizeQuality; }			/*Quality*/\
 			\
-			#prevslide, #nextslide{ position:absolute; height:43px; width:43px; top:50%; margin-top:-21px; opacity:0.6; }\
-				#prevslide{ left:10px; background:url('../img/back.png'); }\
-				#nextslide{ right:10px; background:url('../img/forward.png'); }\
-					#prevslide:active, #nextslide:active{ margin-top:-19px; }\
-					#prevslide:hover, #nextslide:hover{ cursor:pointer; }\
+			#supersized li { display:block; list-style:none; z-index:1970; position:fixed; overflow:hidden; top:0; left:0; width:100%; height:100%; background:#111; }\
+			#supersized a { width:100%; height:100%; display:block; }\
+				#supersized li.prevslide { z-index:1980; }\
+				#supersized li.activeslide { z-index:1990; }\
+				#supersized li.image-loading { background:#111 url(../img/progress.gif) no-repeat center center; width:100%; height:100%; }\
+					#supersized li.image-loading img{ visibility:hidden; }\
+				#supersized li.prevslide img, #supersized li.activeslide img{ display:inline; }\
+	\
+	/* Controls Bar\
+	----------------------------*/\
+	#controls-wrapper { margin:0 auto; height:42px; width:100%; bottom:0px; left:0; z-index:2004; background:url(../img/nav-bg.png) repeat-x; position:fixed; }\
+		#controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:2005; }\
+			#slidecounter { float:left; color:#999; font:14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 0 -1px 0; margin:0px 10px 0 15px; line-height:42px; }\
+			#slidecaption { overflow:hidden; float:left; color:#FFF; font:400 14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 1px 1px 2px; margin:0 20px 0 0; line-height:42px; }\
 			\
-			ul#slide-list{ padding:15px 0; float:left; position:absolute; left:50%; }\
-				ul#slide-list li{ list-style:none; width:12px; height:12px; float:left; margin:0 5px 0 0; }\
-					ul#slide-list li.current-slide a, ul#slide-list li.current-slide a:hover{ background-position:0 0px; }\
-					ul#slide-list li a{ display:block; width:12px; height:12px; background:url('../img/nav-dot.png') no-repeat 0 -24px; }\
-						ul#slide-list li a:hover{ background-position:0 -12px; cursor:pointer; }\
-			\
-			#tray-button{ float:right; margin-top:1px; border-left:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
-				#tray-button:hover{ background-position:0 1px; cursor:pointer; }\
+			#navigation { float:right; margin:0px 20px 0 0; }\
+				#play-button{ float:left; margin-top:1px;border-right:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
+					#play-button:hover{ background-position:0 1px; cursor:pointer; }\
+				\
+				#prevslide, #nextslide{ position:absolute; height:43px; width:43px; top:50%; margin-top:-21px; opacity:0.6; }\
+					#prevslide{ left:10px; background:url('../img/back.png'); }\
+					#nextslide{ right:10px; background:url('../img/forward.png'); }\
+						#prevslide:active, #nextslide:active{ margin-top:-19px; }\
+						#prevslide:hover, #nextslide:hover{ cursor:pointer; }\
+				\
+				ul#slide-list{ padding:15px 0; float:left; position:absolute; left:50%; }\
+					ul#slide-list li{ list-style:none; width:12px; height:12px; float:left; margin:0 5px 0 0; }\
+						ul#slide-list li.current-slide a, ul#slide-list li.current-slide a:hover{ background-position:0 0px; }\
+						ul#slide-list li a{ display:block; width:12px; height:12px; background:url('../img/nav-dot.png') no-repeat 0 -24px; }\
+							ul#slide-list li a:hover{ background-position:0 -12px; cursor:pointer; }\
+				\
+				#tray-button{ float:right; margin-top:1px; border-left:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }\
+					#tray-button:hover{ background-position:0 1px; cursor:pointer; }\
+		\
 	\
-\
-/* Thumbnail Navigation\
-----------------------------*/	\
-#nextthumb,#prevthumb { z-index:2002; display:none; position:fixed; bottom:61px; height:75px; width:100px; overflow:hidden; background:#ddd; border:1px solid #fff; -webkit-box-shadow:0 0 5px #000; }\
-	#nextthumb { right:12px; }\
-	#prevthumb { left:12px; }\
-		#nextthumb img, #prevthumb img { width:150px; height:auto;  }\
-		#nextthumb:active, #prevthumb:active { bottom:59px; }\
-		#nextthumb:hover, #prevthumb:hover { cursor:pointer; }\
-\
-\
-/* Thumbnail Tray\
-----------------------------*/			\
-#thumb-tray{ position:fixed; z-index:2003; bottom:0; left:0; background:url(../img/bg-black.png); height:150px; width:100%; overflow:hidden; text-align:center; -moz-box-shadow: 0px 0px 4px #000; -webkit-box-shadow: 0px 0px 4px #000; box-shadow: 0px 0px 4px #000; }\
-	\
-	#thumb-back, #thumb-forward{ position:absolute; z-index:2005; bottom:42px; height:108px; width:40px; }\
-		#thumb-back{ left:0; background: url('../img/thumb-back.png') no-repeat center center;}\
-		#thumb-forward{ right:0; background:url('../img/thumb-forward.png') no-repeat center center;}\
-			#thumb-back:hover, #thumb-forward:hover{ cursor:pointer; background-color:rgba(256,256,256, 0.1); }\
-				#thumb-back:hover{ border-right:1px solid rgba(256,256,256, 0.2); }\
-				#thumb-forward:hover{ border-left:1px solid rgba(256,256,256, 0.2); }\
+	/* Thumbnail Navigation\
+	----------------------------*/	\
+	#nextthumb,#prevthumb { z-index:2002; display:none; position:fixed; bottom:61px; height:75px; width:100px; overflow:hidden; background:#ddd; border:1px solid #fff; -webkit-box-shadow:0 0 5px #000; }\
+		#nextthumb { right:12px; }\
+		#prevthumb { left:12px; }\
+			#nextthumb img, #prevthumb img { width:150px; height:auto;  }\
+			#nextthumb:active, #prevthumb:active { bottom:59px; }\
+			#nextthumb:hover, #prevthumb:hover { cursor:pointer; }\
 	\
 	\
-	ul#thumb-list{ display:inline-block; list-style:none; position:relative; left:0px; padding:0 0px; }\
-		ul#thumb-list li{ background:#111; list-style:none; display:inline; width:150px; height:108px; overflow:hidden; float:left; margin:0; }\
-			ul#thumb-list li img { width:200px; height:auto; opacity:0.5; -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)\"; filter:alpha(opacity=60); }\
-			ul#thumb-list li.current-thumb img, ul#thumb-list li:hover img{ opacity:1; -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)\"; filter:alpha(opacity=100); }\
-			ul#thumb-list li:hover{ cursor:pointer; }\
+	/* Thumbnail Tray\
+	----------------------------*/			\
+	#thumb-tray{ position:fixed; z-index:2003; bottom:0; left:0; background:url(../img/bg-black.png); height:150px; width:100%; overflow:hidden; text-align:center; -moz-box-shadow: 0px 0px 4px #000; -webkit-box-shadow: 0px 0px 4px #000; box-shadow: 0px 0px 4px #000; }\
+		\
+		#thumb-back, #thumb-forward{ position:absolute; z-index:2005; bottom:42px; height:108px; width:40px; }\
+			#thumb-back{ left:0; background: url('../img/thumb-back.png') no-repeat center center;}\
+			#thumb-forward{ right:0; background:url('../img/thumb-forward.png') no-repeat center center;}\
+				#thumb-back:hover, #thumb-forward:hover{ cursor:pointer; background-color:rgba(256,256,256, 0.1); }\
+					#thumb-back:hover{ border-right:1px solid rgba(256,256,256, 0.2); }\
+					#thumb-forward:hover{ border-left:1px solid rgba(256,256,256, 0.2); }\
+		\
+		\
+		ul#thumb-list{ display:inline-block; list-style:none; position:relative; left:0px; padding:0 0px; }\
+			ul#thumb-list li{ background:#111; list-style:none; display:inline; width:150px; height:108px; overflow:hidden; float:left; margin:0; }\
+				ul#thumb-list li img { width:200px; height:auto; opacity:0.5; -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)\"; filter:alpha(opacity=60); }\
+				ul#thumb-list li.current-thumb img, ul#thumb-list li:hover img{ opacity:1; -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)\"; filter:alpha(opacity=100); }\
+				ul#thumb-list li:hover{ cursor:pointer; }\
 ");
 
 
