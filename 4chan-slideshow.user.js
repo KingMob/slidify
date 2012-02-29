@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name			4chan-Slideshow
 // @namespace		http://dial-a-davidson.net
-// @description		Creates a button for showing a slideshow of every image in the thread
+// @description		Creates a slideshow of every image in the thread
 // @include			http://boards.4chan.org/*/res/*
 // @match			http://boards.4chan.org/*/res/*
 // ==/UserScript==
 
 // the guts of this userscript - all jQuery calls must be inside main
 function jQmain() {
+	var slideshow_initialized = false;
+	var img_info;
 	
 	// Image data - sandboxing inhibits local file access
 	var playpng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAAqCAYAAAD4Uag9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkM4MTc5NTQ3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkM4MTc5NTU3RDhGMTFFMDgxMTFCNTYzQUUwREEyQzYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozREFCM0FFQjdEODExMUUwODExMUI1NjNBRTBEQTJDNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDozREFCM0FFQzdEODExMUUwODExMUI1NjNBRTBEQTJDNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PiDTdmcAAAKOSURBVHja7JhNTxNBGIDfTUhIU9OTJwyJVzVBT/4K/4EHD+IFLujRozEx8eDBRCC1BIwKFlpaS0ORGJGQqFjTVFrtsuyyFCqIhVIhQLu77fgObozxI9TutG7JbPJkd97dmczT+a5ACIGjdgmCQAQuxsW4GBfjYlyMi3GxuokBFWMBXk1IJ+JkVUELdWEqNnC5vZ04HA6auIm4jooY2cxtkXlpgXR0dBKn00mDt5DjDS/2eT37A3FeIl1dV4nL5aIvbyOt9RRjNnnQAbuSWfstvrOzDQP9/eB290I+n7+LoXuIVKnYf58VaWGKuvzX93t7uzA0OAi9Pd2Qy232YIiSaAixlKQc+l2hUAC/bxj6PPdhbXX1IYa6kTe2FptLihV/Xy6XYCwUQkE3LC2pw2YXnTkY+HYTexdLVJV3IjKO49ADsrwQMltw8ruXTcRezcYslTH9cgoeoKAops5jMmpFrInlVkbTNEv5T50+A21nz4GiyG91XW+mRVZbFlOxoqZXlW9jIwveocfwLBKGYrF4B0M3rEgxF9P0fxP7lFmB4OgIPJ+cAMMwHmGISqnIrtW6MO6KlYml0yoEfF6YmZ7KYnIc6UMyyBZd8uikaSsx/RCxxUUZAn4vRGdf0y1KGPEg68hXU8hgIVW3riimPkAoMALJxHvaKk/pSQD58osQ04NhTcWSc3EYC/pAkSUZkwHkiSm0jezXQqg2XVE3Du7xWBQi4SAsp9WPmPQjo0jWFCrUUsjy0eAPR4XYxUtXSMuJVpqII9eRNqQFOWb+iEIjHluu4e0CEkRe0OWJnlro8oaUqmkhu2ypTpqP+z8Jla10ObuINZsSJatCthLj/ytyMS7GxbgYF+Ni7MS+CTAAs5aAGPsbqywAAAAASUVORK5CYII=";
@@ -234,13 +236,13 @@ function jQmain() {
 
 						if(vars.in_animation) return false;		// Abort if currently animating
 
-						// Left Arrow or Down Arrow
-						if ((event.keyCode == 37) || (event.keyCode == 40)) {
+						// Left Arrow, Down Arrow, Z, or z
+						if ((event.keyCode == 37) || (event.keyCode == 40) || (event.keyCode == 122) || (event.keyCode == 90)) {
 							clearInterval(vars.slideshow_interval);	// Stop slideshow, prevent buildup
 							base.prevSlide();
 
-						// Right Arrow or Up Arrow
-						} else if ((event.keyCode == 39) || (event.keyCode == 38)) {
+						// Right Arrow, Up Arrow, X, or x
+						} else if ((event.keyCode == 39) || (event.keyCode == 38) || (event.keyCode == 120) || (event.keyCode == 88)) {
 							clearInterval(vars.slideshow_interval);	// Stop slideshow, prevent buildup
 							base.nextSlide();
 
@@ -932,8 +934,8 @@ function jQmain() {
 
 
 			// Components							
-			slide_links				:	1,			// Individual links for each slide (Options: false, 'num', 'name', 'blank')
-			thumb_links				:	1,			// Individual thumb links for each slide
+			slide_links				:	0,			// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+			thumb_links				:	0,			// Individual thumb links for each slide
 			thumbnail_navigation    :   0			// Thumbnail navigation
 
 	    };
@@ -1291,9 +1293,10 @@ function jQmain() {
 				<input type="text" name="slide_dur" value="7" size="3" id="chan_slideshow_dur" /> Num seconds per slide<br />\
 				<input type="button" id="chan_start_slideshow" value="Start the show!" />\
 				<hr />\
-				<b>Space</b>: play/pause<br />\
-				<b>Arrow Keys</b>: prev/next image<br />\
-				<b>Escape</b>: quit slideshow\
+				<b>Play/pause</b>: space bar<br />\
+				<b>Next image</b>: X, right/down arrow<br />\
+				<b>Prev image</b>: Z, up/left arrow<br />\
+				<b>Quit</b>: escape\
 			</div>');
 		$("iframe + hr").after(slideshow_control_html);
 		
@@ -1360,23 +1363,31 @@ function jQmain() {
 			</div>\
 		</div>\
 	');
-	
 
-	// Callback for when "start" button is clicked
-	var setup_and_start_slideshow = function(){
+	var find_img_info = function(){
 		var img_anchors = $("form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]").has("img");
-		var img_info = $.makeArray(img_anchors.map(function(){
+		return $.makeArray(img_anchors.map(function(){
 			return {
 				image: this.href, 
 				thumb: $("img", this).attr("src")
 				};
-			}));
+			}));		
+	};
+	
+	var setup_slideshow = function(){
+		if(typeof img_info === "undefined"){
+			img_info = find_img_info();
+		}
+		supersized_setup();
+		$("body").append(slideshow_html);
 
+		slideshow_initialized = true;
+	};
+
+	var start_slideshow = function(){
 		var random_order = $("#chan_slideshow_random").prop("checked");
 		var slide_duration = Math.round(Number($("#chan_slideshow_dur").val()) * 1000);
 		
-		supersized_setup();
-		$("body").append(slideshow_html);
 		$.supersized({
 			random					: 	random_order,
 			autoplay				: 	true, 
@@ -1386,17 +1397,16 @@ function jQmain() {
 			transition_speed		:	400,				// Speed of transition
 												   
 			// Components							
-			slide_links	:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+			slide_links	:	"blank",	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
 			slides 		:  	img_info
 		});
-		//slideshow_html.show();
+
+		$("body").css("overflow", "hidden");
+		//slideshow_html.show();	
 	};
-	
-	// Attach callback
-	$("#chan_start_slideshow").click(setup_and_start_slideshow);
-	
+
 	// Catch escape key to stop slideshow - FIXME
-	$(document).keydown(function(e){
+	var stop_slideshow = function(e){
 		var STOP_KEY = 27; // escape keycode
 		//console.log("which:" + e.which);
 		
@@ -1406,11 +1416,28 @@ function jQmain() {
 			}
 			//$(".load-item").hide();
 			//$(slideshow_html).hide();
-			//$("#supersized").hide();
-			//$("#controls-wrapper").hide();
-			//$("#thumb-tray").hide();
+			$("#supersized").remove();
+			$("#controls-wrapper").remove();
+			$("#nextthumb").remove();
+			$("#prevthumb").remove();
+			$("#thumb-tray").remove();
 		}
-	})
+
+		$("body").css("overflow", "auto");
+	};
+
+	// Callback for when "start" button is clicked
+	var setup_and_start_slideshow = function(){
+		if(!slideshow_initialized){
+			setup_slideshow();
+		}
+		start_slideshow();
+	};
+	
+	// Attach callback
+	$("#chan_start_slideshow").click(setup_and_start_slideshow);
+	
+	$(document).keydown(stop_slideshow);
 }
 
 // Check for existence of GM_addStyle, and set if necess
