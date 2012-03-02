@@ -9,4 +9,8 @@ Requirements
 ------------
 It should run in any browser that supports userscripts, which includes Firefox and Chrome, but has only currently been tested in Chrome.
 
+Known bugs
+----------
+Occasionally, when closing and restarting a slideshow, it refuses to play correctly.
+
 
