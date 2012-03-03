@@ -204,24 +204,24 @@ GM_addStyle("\
 		\
 		#supersized-loader { display: none;}\
 		\
-		/* #supersized {  display:inline-block; position:fixed; left:0; top:0; overflow:hidden; z-index:1001; height:100%; width:100%; } */\
-		#supersized {  display:none; position:fixed; left:0; top:0; overflow:hidden; z-index:1001; height:100%; width:100%; }\
+		/* #supersized {  display:inline-block; position:fixed; left:0; top:0; overflow:hidden; z-index:1001001; height:100%; width:100%; } */\
+		#supersized {  display:none; position:fixed; left:0; top:0; overflow:hidden; z-index:1001001; height:100%; width:100%; }\
 			#supersized img { width:auto; height:auto; position:relative; display:none; outline:none; border:none; }\
 				#supersized.speed img { -ms-interpolation-mode:nearest-neighbor; image-rendering: -moz-crisp-edges; }	/*Speed*/\
 				#supersized.quality img { -ms-interpolation-mode:bicubic; image-rendering: optimizeQuality; }			/*Quality*/\
 			\
-			#supersized li { display:block; list-style:none; z-index:1970; position:fixed; overflow:hidden; top:0; left:0; width:100%; height:100%; background:#111; }\
+			#supersized li { display:block; list-style:none; z-index:1001970; position:fixed; overflow:hidden; top:0; left:0; width:100%; height:100%; background:#111; }\
 			#supersized a { width:100%; height:100%; display:block; }\
-				#supersized li.prevslide { z-index:1980; }\
-				#supersized li.activeslide { z-index:1990; }\
+				#supersized li.prevslide { z-index:1001980; }\
+				#supersized li.activeslide { z-index:1001990; }\
 				#supersized li.image-loading { background:#111 url(" + progressgif + ") no-repeat center center; width:100%; height:100%; }\
 					#supersized li.image-loading img{ visibility:hidden; }\
 				#supersized li.prevslide img, #supersized li.activeslide img{ display:inline; }\
 	\
 	/* Controls Bar\
 	----------------------------*/\
-	#controls-wrapper { display:none; margin:0 auto; height:42px; width:100%; bottom:0px; left:0; z-index:2004; position:fixed; }\
-		#controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:2005; }\
+	#controls-wrapper { display:none; margin:0 auto; height:42px; width:100%; bottom:0px; left:0; z-index:1002004; position:fixed; }\
+		#controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:1002005; }\
 			#slidecounter { float:left; color:#999; font:14px \"Helvetica Neue\", Helvetica, Arial, sans-serif; text-shadow:#000 0 -1px 0; margin:0px 10px 0 15px; line-height:42px; }\
 			\
 			#navigation { float:right; margin:0px 20px 0 0; }\
