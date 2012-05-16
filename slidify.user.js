@@ -3,9 +3,9 @@
 // @namespace		http://dial-a-davidson.net
 // @description		Creates a slideshow of every image in the thread
 // @include			http://boards.4chan.org/*/res/*
-// @match			http://boards.4chan.org/*/res/*
 // @include			http://*.tumblr.com/*
 // @match			http://*.tumblr.com/*
+// @match			http://boards.4chan.org/*/res/*
 // ==/UserScript==
 
 
