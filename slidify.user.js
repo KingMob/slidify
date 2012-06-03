@@ -60,7 +60,8 @@ function jQmain() {
 			<hr />\
 			<b>Full screen</b>: ' + fullscreen_key_string + '\
 		</div>');
-	$("body").append(slideshow_control_html);
+	// $(document.body).append(slideshow_control_html);
+	$(document.body).append(slideshow_control_html);
 		
 	// Create slideshow HTML and insert immediately
 	var slideshow_html = $('\
@@ -79,6 +80,8 @@ function jQmain() {
 		</div>\
 	');
 	$("body").append(slideshow_html);
+	// $(document.body).append(slideshow_html);
+	$(document.body).append(slideshow_html);
 
 	/*
 		Supersized - Fullscreen Slideshow jQuery Plugin
@@ -178,7 +181,7 @@ function jQmain() {
 		$(document).on("keydown.slidify", null, null, stop_slideshow);
 
 		// Hide scrollbar
-		$("body").css("overflow", "hidden"); 
+		$(document.body).css("overflow", "hidden"); 
 	};
 
 	// Callback to stop slideshow
@@ -196,7 +199,7 @@ function jQmain() {
 			hide_slideshow_html();
 			$("ul#supersized li").remove();
 			$("#supersized").removeClass("speed quality");
-			$("body").css("overflow", "auto");
+			$(document.body).css("overflow", "auto");
 		}
 	};
 
