@@ -79,7 +79,6 @@ function jQmain() {
 			</div>\
 		</div>\
 	');
-	$("body").append(slideshow_html);
 	// $(document.body).append(slideshow_html);
 	$(document.body).append(slideshow_html);
 
