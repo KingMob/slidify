@@ -12,7 +12,7 @@
 // the guts of this userscript - all functions and jQuery calls must be inside main
 function jQmain() {
 	var IMG_SITE_SELECTORS = {
-		"tumblr.com": {"anchors": false, "selector": "div.photo img"},
+		"tumblr.com": {"anchors": false, "selector": "div.post img, div.photo img"},
 		"4chan.org": {"anchors": true, "selector": "form[name=delform] a:parent[href$=jpeg], form[name=delform] a[href$=jpg], form[name=delform] a[href$=png], form[name=delform] a[href$=gif]"},
 	}
 
